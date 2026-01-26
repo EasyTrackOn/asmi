@@ -3,183 +3,577 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asmi Group Portal</title>
+    <title>Asmi Group Presentation Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;700;900&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        /* 1. GLOBAL STYLES & BACKGROUND */
+        /* --- 1. GLOBAL RESET --- */
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* A soft gradient background: Light Grey to Very Pale Orange */
+            font-family: 'Poppins', 'Noto Sans Malayalam', sans-serif;
+            margin: 0; padding: 0;
+            height: 100vh; width: 100vw;
+            overflow: hidden;
+            background: #f0f2f5;
+        }
+
+        /* --- 2. HOME PAGE (GRID) --- */
+        #home-page {
+            width: 100%; height: 100%;
+            overflow-y: auto;
             background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            margin: 0;
-            padding: 40px 20px;
-            text-align: center;
-            min-height: 100vh;
+            padding: 20px; text-align: center;
+            position: absolute; top: 0; left: 0; z-index: 5;
         }
 
-        header {
-            margin-bottom: 50px;
-        }
-
-        h1 {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
+        .home-header { padding: 40px 0 20px; animation: slideDown 0.8s ease; }
+        .home-header h1 { color: #2c3e50; font-size: 3rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
         
-        p.subtitle {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-        }
-
-        /* 2. GRID LAYOUT */
         .card-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto 80px;
+            padding: 10px;
         }
 
-        /* 3. CARD BASE STYLES */
+        /* CARD STYLES */
         .card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px 20px;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            border-top: 5px solid transparent; /* Placeholder for color */
+            background: white; border-radius: 20px; padding: 25px 20px;
+            cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-top: 6px solid #ccc;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
+        .card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .card-icon { font-size: 3rem; margin-bottom: 15px; }
+        .card img { height: 70px; object-fit: contain; margin-bottom: 15px; }
+        .card h3 { margin: 10px 0; color: #333; font-size: 1.2rem; font-weight: 700; }
+        .card p { color: #666; font-size: 0.9rem; margin: 0; }
 
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        /* --- 3. DETAIL PAGE (PRESENTATION MODE) --- */
+        .page-section {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; flex-direction: column; background: white; z-index: 10;
         }
-
-        /* Image sizing */
-        .card img {
-            max-width: 80%;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            margin: 10px 0;
-            color: #333;
-            font-size: 1.4rem;
-        }
-
-        .card p {
-            font-size: 0.95rem;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* 4. SPECIFIC BRAND COLORS (Based on your Logos) */
         
-        /* Asmi KYC: Orange & Grey  */
-        .card-kyc {
-            border-top-color: #F48120; 
-        }
-        .card-kyc:hover h3 { color: #F48120; }
+        .active-page { display: flex; animation: slideUpEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        /* Trackon: Red & Green Tracks  */
-        .card-trackon {
-            border-top-color: #e74c3c;
-        }
-        .card-trackon:hover h3 { color: #e74c3c; }
-
-        /* Wow Kids: Colorful Green/Pink/Blue  */
-        .card-wow {
-            border-top-color: #2ecc71; /* Green from the logo */
-        }
-        .card-wow:hover h3 { color: #e91e63; /* Pink on hover */ }
-
-        /* Artalia: Artistic/Colorful (Pink/Blue) */
-        .card-artalia {
-            border-top-color: #9b59b6; /* Purple/Pink */
-        }
-        .card-artalia:hover h3 { color: #3498db; }
-
-        /* Chisel: Teal/Cyan  */
-        .card-chisel {
-            border-top-color: #1abc9c;
-        }
-        .card-chisel:hover h3 { color: #16a085; }
-
-        /* Textbooks: Orange Book [cite: 8] */
-        .card-textbooks {
-            border-top-color: #f39c12;
-        }
-        .card-textbooks:hover h3 { color: #d35400; }
-
-        /* Footer */
-        footer {
-            margin-top: 60px;
-            color: #95a5a6;
-            font-size: 0.9rem;
+        @keyframes slideUpEnter {
+            from { transform: translateY(100vh); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
+        /* Header */
+        .detail-header {
+            height: 12vh; padding: 0 40px; display: flex; align-items: center; justify-content: space-between;
+            color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 50; flex-shrink: 0;
+            padding-right: 100px; 
+        }
+        .detail-header h1 { font-size: 4vh; margin: 0; text-transform: uppercase; font-weight: 900; }
+        .header-logo { height: 8vh; background: white; border-radius: 8px; padding: 5px; }
+
+        /* Main Content Area */
+        .detail-main {
+            flex: 1; position: relative; width: 100%; overflow: hidden;
+            display: flex; align-items: flex-start; justify-content: center;
+            cursor: pointer; /* Shows clickable */
+        }
+
+        /* Wrapper for Infinite Scroll */
+        .loop-wrapper { width: 80%; max-width: 1000px; text-align: center; }
+
+        /* Content Text */
+        .scroll-content {
+            color: #333; font-weight: 700; font-size: 4.5vh; line-height: 1.6;
+            padding: 5vh 0;
+        }
+
+        .content-logo { height: 20vh; width: auto; margin: 4vh auto; display: block; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
+
+        /* INFINITE SCROLL ANIMATION */
+        .infinite-scroll { 
+            animation: scrollLoop linear infinite; 
+            animation-delay: 2s; 
+        }
+        
+        /* CLASS TO PAUSE ANIMATION */
+        .paused { animation-play-state: paused !important; }
+
+        @keyframes scrollLoop {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); } 
+        }
+
+        /* --- 4. FLOATING SIDEBAR (RIGHT) --- */
+        .sidebar {
+            position: fixed; right: 20px; top: 0; height: 100%; 
+            width: auto; /* Dynamic width */
+            display: flex; flex-direction: column; align-items: flex-end; /* Align to right */
+            justify-content: center;
+            gap: 15px; z-index: 200;
+            pointer-events: none; /* Let clicks pass through empty space */
+            display: none; 
+        }
+
+        /* Individual Navigation Item (The Container) */
+        .nav-item {
+            pointer-events: auto; /* Re-enable clicks */
+            display: flex; align-items: center; justify-content: flex-end;
+            background: white; 
+            border-radius: 50px; /* Pill Shape */
+            padding: 5px;
+            width: 55px; /* Initial Collapsed Width */
+            height: 55px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.2s;
+            overflow: hidden; /* Hide text when collapsed */
+            cursor: pointer;
+            border: 2px solid #eee;
+        }
+
+        /* Hover Effect: Expand Left */
+        .nav-item:hover {
+            width: 250px; /* Expanded Width */
+            border-color: #aaa;
+        }
+
+        .nav-item.active { border-color: #2196f3; box-shadow: 0 0 15px rgba(33, 150, 243, 0.4); }
+
+        /* The Icon Image */
+        .nav-icon-wrapper {
+            width: 45px; height: 45px; flex-shrink: 0;
+            border-radius: 50%; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-icon-img { width: 100%; height: 100%; object-fit: cover; }
+        .nav-icon-emoji { font-size: 1.5rem; }
+
+        /* The Text Label (Hidden initially) */
+        .nav-text {
+            white-space: nowrap;
+            margin-right: 15px; /* Space between text and icon */
+            margin-left: 15px;
+            font-weight: bold; color: #333; font-size: 1rem;
+            opacity: 0; transition: opacity 0.2s;
+            flex-grow: 1; text-align: right;
+        }
+        .nav-item:hover .nav-text { opacity: 1; transition-delay: 0.1s; }
+
+
+        /* Home Button in Sidebar */
+        .home-sidebar-btn { 
+            pointer-events: auto;
+            background: #2c3e50; color: white; margin-bottom: 10px; 
+            width: 55px; height: 55px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 1.5rem;
+            transition: transform 0.2s;
+        }
+        .home-sidebar-btn:hover { transform: scale(1.1); }
+
+        /* --- 5. NEXT BUTTON --- */
+        .next-card {
+            position: fixed; bottom: 30px; right: 100px;
+            background: white; padding: 10px 20px; border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 15px;
+            cursor: pointer; z-index: 100;
+            transition: 0.3s; border: 2px solid #eee;
+            display: none; 
+        }
+        .active-page ~ .next-card { display: flex; }
+        .next-card:hover { transform: scale(1.05); border-color: #333; }
+        .next-label { font-size: 0.8rem; color: #888; text-transform: uppercase; font-weight: bold; }
+        .next-name { font-size: 1.1rem; font-weight: 900; color: #333; }
+
+        /* --- THEME COLORS --- */
+        .theme-scholar { border-top-color: #2980b9; } #page-scholar .detail-header { background: #2980b9; }
+        .theme-parenting { border-top-color: #e91e63; } #page-parenting .detail-header { background: linear-gradient(135deg, #e91e63, #ff80ab); }
+        .theme-lumina { border-top-color: #00bcd4; } #page-lumina .detail-header { background: #00bcd4; }
+        .theme-voice { border-top-color: #673ab7; } #page-voice .detail-header { background: #673ab7; }
+        .theme-trackon { border-top-color: #c0392b; } #page-trackon .detail-header { background: linear-gradient(135deg, #cb2d3e, #ef473a); }
+        .theme-inspection { border-top-color: #34495e; } #page-inspection .detail-header { background: #34495e; }
+        .theme-ecmate { border-top-color: #27ae60; } #page-ecmate .detail-header { background: #27ae60; }
+        .theme-values { border-top-color: #d4ac0d; } #page-values .detail-header { background: #d4ac0d; }
+        .theme-prism { border-top-color: #9c27b0; } #page-prism .detail-header { background: linear-gradient(90deg, violet, indigo, blue, green, orange, red); }
+        .theme-kyc { border-top-color: #F48120; } #page-kyc .detail-header { background: #F48120; }
+        .theme-wow { border-top-color: #2ecc71; } #page-wow .detail-header { background: #2ecc71; }
+        .theme-artalia { border-top-color: #9b59b6; } #page-artalia .detail-header { background: linear-gradient(to right, #e91e63, #3498db); }
+        .theme-chisel { border-top-color: #1abc9c; } #page-chisel .detail-header { background: #16a085; }
+        .theme-textbooks { border-top-color: #f39c12; } #page-textbooks .detail-header { background: #f39c12; }
+
+        /* Utils */
+        .highlight { font-weight: 900; font-size: 1.2em; display: block; margin: 10px 0; }
+        hr { border: 0; height: 2px; background: rgba(0,0,0,0.1); margin: 30px auto; width: 50%; }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Floating Home Button */
+        .floating-home {
+            position: fixed; bottom: 30px; left: 30px;
+            background: rgba(0,0,0,0.6); color: white;
+            padding: 10px 20px; border-radius: 50px;
+            cursor: pointer; font-weight: bold; z-index: 100;
+            display: none;
+        }
+        .active-page ~ .floating-home { display: block; }
+        
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Asmi Group</h1>
-        <p class="subtitle">Educational Excellence & Innovation</p>
-    </header>
+    <div id="home-page" class="active-page">
+        <header class="home-header">
+            <h1>Asmi Group Portal</h1>
+            <p>Select a module to start</p>
+        </header>
 
-    <main class="card-container">
+        <main class="card-container">
+            <div class="card theme-scholar" onclick="openPage('scholar')"><div class="card-icon">🎓</div><h3>Little Scholar</h3></div>
+            <div class="card theme-parenting" onclick="openPage('parenting')"><div class="card-icon">👪</div><h3>Parenting</h3></div>
+            <div class="card theme-lumina" onclick="openPage('lumina')"><div class="card-icon">🔬</div><h3>Lumina</h3></div>
+            <div class="card theme-voice" onclick="openPage('voice')"><div class="card-icon">📢</div><h3>Voice</h3></div>
+            <div class="card theme-trackon" onclick="openPage('trackon')"><img src="trackon.png" alt="Trackon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><div class="card-icon" style="display:none">🏃</div><h3>Trackon</h3></div>
+            <div class="card theme-inspection" onclick="openPage('inspection')"><div class="card-icon">📋</div><h3>Inspection</h3></div>
+            <div class="card theme-ecmate" onclick="openPage('ecmate')"><div class="card-icon">👩‍🏫</div><h3>EC Mate</h3></div>
+            <div class="card theme-values" onclick="openPage('values')"><div class="card-icon">🕊️</div><h3>Values</h3></div>
+            <div class="card theme-prism" onclick="openPage('prism')"><img src="prism.png" alt="Prism" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><div class="card-icon" style="display:none">🌈</div><h3>Prism</h3></div>
+            <div class="card theme-kyc" onclick="openPage('kyc')"><img src="kyc.png" alt="KYC" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><div class="card-icon" style="display:none">🔍</div><h3>KYC</h3></div>
+            <div class="card theme-wow" onclick="openPage('wow')"><img src="wowkids.png" alt="Wow" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><div class="card-icon" style="display:none">🌟</div><h3>Wow Kids</h3></div>
+            <div class="card theme-artalia" onclick="openPage('artalia')"><img src="art.png" alt="Art" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><div class="card-icon" style="display:none">🎨</div><h3>Artalia</h3></div>
+            <div class="card theme-chisel" onclick="openPage('chisel')"><img src="chisel.png" alt="Chisel" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><div class="card-icon" style="display:none">🛠️</div><h3>Chisel</h3></div>
+            <div class="card theme-textbooks" onclick="openPage('textbooks')"><img src="textbooks.png" alt="Book" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><div class="card-icon" style="display:none">📚</div><h3>Textbooks</h3></div>
+        </main>
+    </div>
+
+    <div id="page-scholar" class="page-section">
+        <header class="detail-header"><h1>Little Scholar</h1><img src="littlescholar.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="littlescholar.png" class="content-logo" onerror="this.style.display='none'">
+            <p>കുഞ്ഞിൻറെ മനസ്സിൽ പിറവിയെടുക്കാൻ അവസരം തേടുന്ന...</p><p>പ്രതിഭയെ പുറത്തുകൊണ്ടുവരാൻ സഹായിക്കലാണ് ശരിയായ വിദ്യാഭ്യാസം.</p>
+            <hr><p>മികവിൻ്റെ കരുത്തും പരിപോഷണങ്ങളുടെ കരുതലുമായി...</p><p>കുഞ്ഞു പ്രതിഭയെ കണ്ടെത്താൻ...</p>
+            <span class="highlight" style="color:#2980b9">പ്രതിഭാ നിർണയ ബഹുമുഖ നൈപുണി പരീക്ഷ</span><p>അസ്മി ലിറ്റിൽ സ്കോളർ</p>
+            <img src="littlescholar.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-parenting" class="page-section">
+        <header class="detail-header"><h1>Parenting</h1><img src="parenting.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="parenting.png" class="content-logo" onerror="this.style.display='none'">
+            <p>സ്നേഹമുള്ള ഹൃദയമാണ് കുഞ്ഞിൻ്റെ ആദ്യ പഠന മുറി.</p><p>മാതാവിൻറെ മടിത്തട്ടാണ് കുട്ടിയുടെ പ്രിയപ്പെട്ട ബെഞ്ച്.</p>
+            <hr><span class="highlight" style="color:#e91e63">പാരൻ്റ് സ്‌കൂളുമായി അസ്‌മി കൂടെയുണ്ട്.</span>
+            <p>മികവ് തെളിയിക്കുന്നവർക്ക് ഉയർന്ന അവസരങ്ങളും ലഭിക്കുന്നു.</p>
+            <img src="parenting.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-lumina" class="page-section">
+        <header class="detail-header"><h1>Lumina</h1><img src="lumina.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="lumina.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#00bcd4">ASMI LUMINA SCIENCE FAIR</span>
+            <p>വിദ്യാർത്ഥികളിൽ കൗതുകബോധം, ശാസ്ത്രീയ അവബോധം,</p><p>യുക്തിചിന്തയും ലൗജിക്കൽ ചിന്താശേഷിയും വളർത്തുന്നതിന്.</p>
+            <hr><span class="highlight">“ശാസ്ത്രം, സമൂഹം, ആത്മീയത”</span>
+            <p>എന്ന ഏകീകൃത ആശയത്തെ ആധാരമാക്കിയാണ് സംഘടിപ്പിക്കുന്നത്.</p>
+            <img src="lumina.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-voice" class="page-section">
+        <header class="detail-header"><h1>Voice</h1><img src="voice.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="voice.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#673ab7">ASMI VOICE</span>
+            <p>Monthly Digital Tabloid: <em>The Pulse of ASMI Schools</em></p>
+            <hr><p>സ്കൂളുകളുടെ സജീവതയും വൈവിധ്യവും അവതരിപ്പിക്കുകയും ചെയ്യുന്നതിനായി...</p>
+            <p>രൂപകൽപ്പന ചെയ്ത സജീവമായ ഒരു <strong>ഡിജിറ്റൽ ടാബ്ലോയിഡാണ്</strong></p>
+            <img src="voice.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-trackon" class="page-section">
+        <header class="detail-header"><h1>Trackon</h1><img src="trackon.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="trackon.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#c0392b">Track on Asmi Sports Meet</span>
+            <p>💪 ശാരീരിക ക്ഷമത</p><p>🤝 കായികമനോഭാവം</p><p>⏱️ ശിക്ഷണം</p><p>🏆 ടീം വർക്ക്</p>
+            <p>എന്നിവ വളർത്തുന്നതിന് അസ്‍മി നടത്തുന്ന കായിക മത്സരമാണ്.</p>
+            <img src="trackon.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-inspection" class="page-section">
+        <header class="detail-header"><h1>Inspection</h1><img src="inspection.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="inspection.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#34495e">INSPECTION & GRADATION</span>
+            <p>സ്ഥാപനങ്ങളുടെ അക്കാദമിക ഔന്നിത്യം, ഭൗതിക സൗകര്യങ്ങൾ,</p>
+            <hr><p><strong>TEAM FOR EVALUATION AND MONITORING</strong></p>
+            <p>സ്‌കൂൾ നേരിട്ട് സന്ദർശിച്ച് മൂല്യനിർണയം നടത്തി</p><p>ഗ്രേഡേഷനും അംഗീകാരവും നൽകുന്നു.</p>
+            <img src="inspection.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-ecmate" class="page-section">
+        <header class="detail-header"><h1>EC Mate</h1><img src="ecmate.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="ecmate.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#27ae60">ASMI EC MATE</span>
+            <p>ഗുണമേന്മയുള്ള വിദ്യാഭ്യാസം കുഞ്ഞിൻറെ അവകാശമാണ്.</p>
+            <hr><p>Early Child Management and Teacher Education</p>
+            <p>കേന്ദ്ര ഗവൺമെന്റിൻ്റെ NCVT അംഗീകൃത സർട്ടിഫിക്കറ്റോടെ</p>
+            <p><strong>TEACHER ELIGIBILITY TEST</strong> പരീക്ഷയും നടത്തിവരുന്നു.</p>
+            <img src="ecmate.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-values" class="page-section">
+        <header class="detail-header"><h1>Values</h1><img src="values.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="values.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#d4ac0d">വിങ്സ് ഓഫ് വാല്യൂസ്</span>
+            <p>"തോണിക്കാരൻ്റെ തുഴപോലെ" പ്രധാനമാണ് ധാർമികത.</p>
+            <hr><p>ഇരുലോക ജീവിതത്തിലും മികവ് നേടാനുള്ള</p>
+            <p>മൂല്യ വിചാരം പകരുന്ന <strong>Value Education</strong> പഠന സീരീസ്</p>
+            <p>അസ്‌മിയുടെ മാത്രം പ്രത്യേകതയാണ്.</p>
+            <img src="values.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-prism" class="page-section">
+        <header class="detail-header"><h1>Prism</h1><img src="prism.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="prism.png" class="content-logo" onerror="this.style.display='none'">
+            <h2 style="background: linear-gradient(to right, violet, indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;">ASMI PRISM CADET</h2>
+            <p>സേവന സന്നദ്ധതയോടെ, സ്ഥാപനത്തിലെ മികവിൻ്റെ മാതൃകയായി...</p>
+            <hr><span class="highlight" style="color:indigo">33 അംഗ പ്രായോഗിക പരിശീലന വേദി</span>
+            <p>ഒഴുകിനൊത്ത് നീന്താനല്ല; ഒഴുക്കിനെതിരെ നീന്താനുള്ള അന്തരിക അച്ചടക്കബോധം (Internal Discipline)</p>
+            <img src="prism.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-kyc" class="page-section">
+        <header class="detail-header"><h1>KYC</h1><img src="kyc.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="kyc.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#F48120">ASMI KYC</span>
+            <p>കുട്ടിയെ യഥാർത്ഥത്തിൽ വിലയിരുത്താൻ ഇന്നത്തെ പരീക്ഷ രീതി അപര്യാപ്തമാണ്.</p>
+            <hr><p>ആധികാരികവും ശാസ്ത്രീയവുമായ നിരന്തര മൂല്യനിർണയ പദ്ധതി.</p>
+            <p>ഓരോ കുട്ടിക്കും സൗജന്യമായി നൽകുന്നു.</p>
+            <img src="kyc.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-wow" class="page-section">
+        <header class="detail-header"><h1>Wow Kids</h1><img src="wowkids.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="wowkids.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#2ecc71">ASMI WOW KIDS</span>
+            <p>Interactive Ai Kids Magazine</p>
+            <hr><p>Wow Kids Academic Magazine</p>
+            <p>ഓരോ വിദ്യാർത്ഥിക്കും ഓരോ വർഷം <strong>മൂന്നെണ്ണം വീതം</strong> ലഭിക്കുന്നു.</p>
+            <img src="wowkids.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-artalia" class="page-section">
+        <header class="detail-header"><h1>Artalia</h1><img src="art.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="art.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#9b59b6">ASMI ARTALIA</span>
+            <p>സർഗാത്മകഥകളുടെയും കലാരവങ്ങളുടെയും മൊഞ്ച് പൂക്കുന്ന...</p>
+            <hr><p>അസ്‌മി ആർട്ടാലിയ (Asmi Artalia)</p>
+            <p>സ്‌കൂൾ, മേഖല തലങ്ങളിലാണ് ഈ മത്സരങ്ങൾ നടക്കുന്നത്.</p>
+            <img src="art.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-chisel" class="page-section">
+        <header class="detail-header"><h1>Chisel</h1><img src="chisel.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="chisel.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#1abc9c">ASMI CHISEL</span>
+            <p>എല്ലാ ജീവനക്കാർക്കും ഉൾക്കാഴ്ച്ച നൽകുന്ന നിരന്തര പരിശീലനങ്ങൾ.</p>
+            <hr><p>സ്ഥാപന മേധാവികൾ</p><p>അധ്യാപകർ</p><p>ഓഫീസ് ജീവനക്കാർ</p>
+            <img src="chisel.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+    <div id="page-textbooks" class="page-section">
+        <header class="detail-header"><h1>Textbooks</h1><img src="textbooks.png" class="header-logo" onerror="this.style.display='none'"></header>
+        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="textbooks.png" class="content-logo" onerror="this.style.display='none'">
+            <span class="highlight" style="color:#f39c12">ASMI TEXTBOOKS</span>
+            <p>അന്താരാഷ്ട്ര നിലവാരമുള്ള പഠന പ്രവർത്തനങ്ങൾക്ക് ഊന്നൽ നൽകുന്ന...</p>
+            <hr><p>വിദ്യാർത്ഥി സൗഹൃദ പാഠ്യപദ്ധതിയാണ്.</p>
+            <p>അസ്‌മി കിഡ്‌സ് 1 മുതൽ 7 വരെ ക്ലാസുകളിലേക്ക്.</p>
+            <img src="textbooks.png" class="content-logo" onerror="this.style.display='none'">
+        </div></div></main>
+    </div>
+
+
+    <div class="sidebar">
+        <div class="home-sidebar-btn" onclick="goHome()" title="Home">
+            <span>🏠</span>
+        </div>
+
+        </div>
+
+    <div class="floating-home" onclick="goHome()">🏠 Home</div>
+
+    <div class="next-card" onclick="goToNext()">
+        <div style="text-align:right">
+            <div class="next-label">Next Module</div>
+            <div class="next-name" id="next-btn-text">Parenting</div>
+        </div>
+        <div style="font-size:2rem">➡️</div>
+    </div>
+
+    <script>
+        // Module Data
+        const modules = [
+            { id: 'scholar', name: 'Little Scholar', icon: '🎓', img: 'littlescholar.png' },
+            { id: 'parenting', name: 'Parenting', icon: '👪', img: 'parenting.png' },
+            { id: 'lumina', name: 'Lumina', icon: '🔬', img: 'lumina.png' },
+            { id: 'voice', name: 'Voice', icon: '📢', img: 'voice.png' },
+            { id: 'trackon', name: 'Trackon', icon: '🏃', img: 'trackon.png' },
+            { id: 'inspection', name: 'Inspection', icon: '📋', img: 'inspection.png' },
+            { id: 'ecmate', name: 'EC Mate', icon: '👩‍🏫', img: 'ecmate.png' },
+            { id: 'values', name: 'Values', icon: '🕊️', img: 'values.png' },
+            { id: 'prism', name: 'Prism', icon: '🌈', img: 'prism.png' },
+            { id: 'kyc', name: 'KYC', icon: '🔍', img: 'kyc.png' },
+            { id: 'wow', name: 'Wow Kids', icon: '🌟', img: 'wowkids.png' },
+            { id: 'artalia', name: 'Artalia', icon: '🎨', img: 'art.png' },
+            { id: 'chisel', name: 'Chisel', icon: '🛠️', img: 'chisel.png' },
+            { id: 'textbooks', name: 'Textbooks', icon: '📚', img: 'textbooks.png' }
+        ];
+
+        let currentIndex = -1;
+
+        // 1. Initialize Sidebar
+        const sidebar = document.querySelector('.sidebar');
         
-        <a href="kyc.html" class="card card-kyc">
-            <img src="kyc.png" alt="Asmi KYC Logo"> 
-            <h3>Asmi KYC</h3>
-            <p>Know Your Child: Comprehensive student profiling.</p>
-        </a>
+        modules.forEach(m => {
+            const navItem = document.createElement('div');
+            navItem.className = 'nav-item';
+            navItem.id = `nav-${m.id}`;
+            navItem.onclick = () => openPage(m.id);
 
-        <a href="trackon.html" class="card card-trackon">
-            <img src="trackon.png" alt="Trackon Logo">
-            <h3>Trackon</h3>
-            <p>Sports Meet 2025 official management portal.</p>
-        </a>
+            // Structure: Text Label + Icon Wrapper
+            const label = document.createElement('div');
+            label.className = 'nav-text';
+            label.innerText = m.name;
 
-        <a href="artalia.html" class="card card-artalia">
-            <img src="art.png" alt="Artalia Logo">
-            <h3>Artalia</h3>
-            <p>Celebrating creativity and artistic talent.</p>
-        </a>
+            const iconWrapper = document.createElement('div');
+            iconWrapper.className = 'nav-icon-wrapper';
+            iconWrapper.innerHTML = `<img src="${m.img}" class="nav-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                     <div class="nav-icon-emoji" style="display:none">${m.icon}</div>`;
 
-        <a href="wowkids.html" class="card card-wow">
-            <img src="wowkids.png" alt="Wow Kids Magazine Logo">
-            <h3>Wow Kids</h3>
-            <p>Inspiring young minds with creative stories.</p>
-        </a>
+            navItem.appendChild(label); // Label first (left)
+            navItem.appendChild(iconWrapper); // Icon second (right)
+            sidebar.appendChild(navItem);
+        });
 
-        <a href="chisel.html" class="card card-chisel">
-            <img src="chisel.png" alt="Chisel Logo">
-            <h3>Chisel</h3>
-            <p>Professional training programs for educators.</p>
-        </a>
+        function openPage(pageId) {
+            // Find Index
+            currentIndex = modules.findIndex(m => m.id === pageId);
 
-        <a href="textbooks.html" class="card card-textbooks">
-            <img src="textbooks.png" alt="Asmi Textbooks Logo">
-            <h3>Textbooks</h3>
-            <p>High-quality curriculum resources.</p>
-        </a>
+            // Hide Home & Pages
+            document.getElementById('home-page').style.display = 'none';
+            document.querySelectorAll('.page-section').forEach(p => {
+                p.classList.remove('active-page');
+                p.style.display = 'none';
+                
+                // Reset Scroll Logic
+                const wrapper = p.querySelector('.loop-wrapper');
+                if(wrapper) {
+                    wrapper.classList.remove('infinite-scroll');
+                    wrapper.classList.remove('paused'); // Reset pause
+                    wrapper.style.transform = 'translateY(0)';
+                    if(wrapper.children.length > 1) {
+                        wrapper.removeChild(wrapper.lastElementChild);
+                    }
+                }
+            });
 
-    </main>
+            // Update Sidebar Active State
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(`nav-${pageId}`).classList.add('active');
 
-    <footer>
-        &copy; 2026 Asmi Group. All Rights Reserved.
-    </footer>
+            // Show Target Page
+            const target = document.getElementById(`page-${pageId}`);
+            if(target) {
+                target.style.display = 'flex';
+                target.classList.add('active-page');
+                setTimeout(() => checkScroll(target), 100);
+            }
 
+            // Update Sidebar Visibility
+            sidebar.style.display = 'flex';
+
+            // Update Next Button
+            updateNextBtn();
+        }
+
+        function checkScroll(pageElement) {
+            const container = pageElement.querySelector('.detail-main');
+            const wrapper = pageElement.querySelector('.loop-wrapper');
+            const content = pageElement.querySelector('.scroll-content');
+            
+            if (!container || !content) return;
+
+            // Measure
+            const containerH = container.clientHeight;
+            const contentH = content.scrollHeight;
+
+            // IF CONTENT IS LONG: SETUP INFINITE LOOP
+            if (contentH > containerH) {
+                // 1. Clone content
+                const clone = content.cloneNode(true);
+                wrapper.appendChild(clone);
+                
+                // 2. Set animation speed
+                const duration = Math.max(20, contentH / 40); 
+                wrapper.style.animationDuration = duration + 's';
+                
+                // 3. Start animation
+                wrapper.classList.add('infinite-scroll');
+            }
+        }
+
+        // TOGGLE SCROLL PLAY/PAUSE
+        function toggleScroll(pageElement) {
+            const wrapper = pageElement.querySelector('.loop-wrapper');
+            if (wrapper && wrapper.classList.contains('infinite-scroll')) {
+                if (wrapper.classList.contains('paused')) {
+                    wrapper.classList.remove('paused'); // Resume
+                } else {
+                    wrapper.classList.add('paused'); // Pause
+                }
+            }
+        }
+
+        function updateNextBtn() {
+            let nextIdx = currentIndex + 1;
+            if (nextIdx >= modules.length) nextIdx = 0; // Loop back
+            const nextMod = modules[nextIdx];
+            document.getElementById('next-btn-text').innerText = nextMod.name;
+        }
+
+        function goToNext() {
+            let nextIdx = currentIndex + 1;
+            if (nextIdx >= modules.length) nextIdx = 0;
+            openPage(modules[nextIdx].id);
+        }
+
+        function goHome() {
+            document.querySelectorAll('.page-section').forEach(p => p.style.display = 'none');
+            document.getElementById('home-page').style.display = 'block';
+            sidebar.style.display = 'none'; // Hide sidebar on home
+            currentIndex = -1;
+        }
+    </script>
 </body>
 </html>
