@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asmi Group Portal</title>
+    <style>
+        /* 1. GLOBAL STYLES & BACKGROUND */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* A soft gradient background: Light Grey to Very Pale Orange */
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            margin: 0;
+            padding: 40px 20px;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        header {
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        p.subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        /* 2. GRID LAYOUT */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 3. CARD BASE STYLES */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-top: 5px solid transparent; /* Placeholder for color */
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Image sizing */
+        .card img {
+            max-width: 80%;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            color: #333;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* 4. SPECIFIC BRAND COLORS (Based on your Logos) */
+        
+        /* Asmi KYC: Orange & Grey  */
+        .card-kyc {
+            border-top-color: #F48120; 
+        }
+        .card-kyc:hover h3 { color: #F48120; }
+
+        /* Trackon: Red & Green Tracks  */
+        .card-trackon {
+            border-top-color: #e74c3c;
+        }
+        .card-trackon:hover h3 { color: #e74c3c; }
+
+        /* Wow Kids: Colorful Green/Pink/Blue  */
+        .card-wow {
+            border-top-color: #2ecc71; /* Green from the logo */
+        }
+        .card-wow:hover h3 { color: #e91e63; /* Pink on hover */ }
+
+        /* Artalia: Artistic/Colorful (Pink/Blue) */
+        .card-artalia {
+            border-top-color: #9b59b6; /* Purple/Pink */
+        }
+        .card-artalia:hover h3 { color: #3498db; }
+
+        /* Chisel: Teal/Cyan  */
+        .card-chisel {
+            border-top-color: #1abc9c;
+        }
+        .card-chisel:hover h3 { color: #16a085; }
+
+        /* Textbooks: Orange Book [cite: 8] */
+        .card-textbooks {
+            border-top-color: #f39c12;
+        }
+        .card-textbooks:hover h3 { color: #d35400; }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Asmi Group</h1>
+        <p class="subtitle">Educational Excellence & Innovation</p>
+    </header>
+
+    <main class="card-container">
+        
+        <a href="kyc.html" class="card card-kyc">
+            <img src="kyc.png" alt="Asmi KYC Logo"> 
+            <h3>Asmi KYC</h3>
+            <p>Know Your Child: Comprehensive student profiling.</p>
+        </a>
+
+        <a href="trackon.html" class="card card-trackon">
+            <img src="trackon.png" alt="Trackon Logo">
+            <h3>Trackon</h3>
+            <p>Sports Meet 2025 official management portal.</p>
+        </a>
+
+        <a href="artalia.html" class="card card-artalia">
+            <img src="art.png" alt="Artalia Logo">
+            <h3>Artalia</h3>
+            <p>Celebrating creativity and artistic talent.</p>
+        </a>
+
+        <a href="wowkids.html" class="card card-wow">
+            <img src="wowkids.png" alt="Wow Kids Magazine Logo">
+            <h3>Wow Kids</h3>
+            <p>Inspiring young minds with creative stories.</p>
+        </a>
+
+        <a href="chisel.html" class="card card-chisel">
+            <img src="chisel.png" alt="Chisel Logo">
+            <h3>Chisel</h3>
+            <p>Professional training programs for educators.</p>
+        </a>
+
+        <a href="textbooks.html" class="card card-textbooks">
+            <img src="textbooks.png" alt="Asmi Textbooks Logo">
+            <h3>Textbooks</h3>
+            <p>High-quality curriculum resources.</p>
+        </a>
+
+    </main>
+
+    <footer>
+        &copy; 2026 Asmi Group. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
