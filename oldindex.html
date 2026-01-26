@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asmi Group Portal</title>
+    <style>
+    /* 1. GLOBAL STYLES */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        margin: 0;
+        padding: 40px 20px;
+        text-align: center;
+        min-height: 100vh;
+    }
+
+    header {
+        margin-bottom: 50px;
+        animation: fadeInDown 0.8s ease-out;
+    }
+
+    h1 {
+        color: #2c3e50;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+    }
+
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* 2. CARD STYLES */
+    .card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px 20px;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        border-top: 5px solid var(--brand-color); /* Uses the variable! */
+        
+        /* TWO ANIMATIONS: 
+           1. fadeUp (runs once to enter) 
+           2. glowPulse (runs forever) 
+        */
+        opacity: 0; /* Start invisible for fadeUp */
+        animation: 
+            fadeUp 0.8s ease-out forwards, 
+            glowPulse 3s infinite ease-in-out 1s; /* Starts glowing after 1s */
+    }
+
+    .card img {
+        max-width: 80%;
+        height: 100px;
+        object-fit: contain;
+        margin-bottom: 20px;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .card:hover img {
+        transform: scale(1.15) rotate(2deg);
+    }
+
+    .card h3 {
+        margin: 10px 0;
+        color: #333;
+        font-size: 1.4rem;
+        transition: color 0.3s;
+    }
+
+    .card:hover h3 {
+        color: var(--brand-color); /* Text changes to brand color on hover */
+    }
+
+    .card p {
+        font-size: 0.95rem;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    /* Prism: Royal Blue */
+    .card-prism {
+        border-top-color: #4169e1; /* Royal Blue */
+    }
+    .card-prism:hover h3 { color: #1e3c72; }
+    .card-prism { --brand-color: #4169e1; } /* For the glow animation */
+    /* 3. BRAND COLORS (DEFINING VARIABLES) */
+    /* We define the color once here, and the glow uses it automatically */
+    
+    .card-kyc { --brand-color: #F48120; }
+    .card-trackon { --brand-color: #e74c3c; }
+    .card-wow { --brand-color: #2ecc71; }
+    .card-artalia { --brand-color: #9b59b6; }
+    .card-chisel { --brand-color: #1abc9c; }
+    .card-textbooks { --brand-color: #f39c12; }
+
+
+    /* 4. ANIMATIONS */
+    
+    /* The Entrance Animation */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* The Continuous Glow Animation */
+    @keyframes glowPulse {
+        0% {
+            /* Normal Shadow */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        50% {
+            /* GLOW: The shadow becomes the brand color */
+            /* Using inset makes the glow appear slightly inside/underneath */
+            box-shadow: 0 10px 25px var(--brand-color); 
+        }
+        100% {
+            /* Back to Normal */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+    }
+
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stagger the entrance slightly */
+    .card:nth-child(1) { animation-delay: 0.1s, 1s; }
+    .card:nth-child(2) { animation-delay: 0.2s, 1.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s, 1.4s; }
+    .card:nth-child(4) { animation-delay: 0.4s, 1.6s; }
+    .card:nth-child(5) { animation-delay: 0.5s, 1.8s; }
+    .card:nth-child(6) { animation-delay: 0.6s, 2.0s; }
+
+    footer {
+        margin-top: 60px;
+        color: #95a5a6;
+    }
+</style>
+</head>
+<body>
+
+    <header>
+        <h1>Asmi Group</h1>
+        <p class="subtitle">Educational Excellence & Innovation</p>
+    </header>
+
+    <main class="card-container">
+       <a href="prism.html" class="card card-prism">
+    <img src="prism.png" alt="Asmi Prism Logo">
+    <h3>Asmi Prism Cadet</h3>
+    <p>Building leadership, discipline, and character.</p>
+</a>
+        <a href="kyc.html" class="card card-kyc">
+            <img src="kyc.png" alt="Asmi KYC Logo"> 
+            <h3>Asmi KYC</h3>
+            <p>Know Your Child: Comprehensive student profiling.</p>
+        </a>
+
+        <a href="trackon.html" class="card card-trackon">
+            <img src="trackon.png" alt="Trackon Logo">
+            <h3>Trackon</h3>
+            <p>Sports Meet 2025 official management portal.</p>
+        </a>
+
+        <a href="artalia.html" class="card card-artalia">
+            <img src="art.png" alt="Artalia Logo">
+            <h3>Artalia</h3>
+            <p>Celebrating creativity and artistic talent.</p>
+        </a>
+
+        <a href="wowkids.html" class="card card-wow">
+            <img src="wowkids.png" alt="Wow Kids Magazine Logo">
+            <h3>Wow Kids</h3>
+            <p>Inspiring young minds with creative stories.</p>
+        </a>
+
+        <a href="chisel.html" class="card card-chisel">
+            <img src="chisel.png" alt="Chisel Logo">
+            <h3>Chisel</h3>
+            <p>Professional training programs for educators.</p>
+        </a>
+
+        <a href="textbooks.html" class="card card-textbooks">
+            <img src="textbooks.png" alt="Asmi Textbooks Logo">
+            <h3>Textbooks</h3>
+            <p>High-quality curriculum resources.</p>
+        </a>
+
+    </main>
+
+    <footer>
+        &copy; 2026 Asmi Group. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
