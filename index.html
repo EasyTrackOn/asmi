@@ -21,13 +21,16 @@
         #home-page {
             width: 100%; height: 100%;
             overflow-y: auto;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite; /* Animated Main BG */
             padding: 20px; text-align: center;
             position: absolute; top: 0; left: 0; z-index: 5;
         }
 
         .home-header { padding: 40px 0 20px; animation: slideDown 0.8s ease; }
-        .home-header h1 { color: #2c3e50; font-size: 3rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        .home-header h1 { color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 3rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        .home-header p { color: rgba(255,255,255,0.9); font-size: 1.2rem; }
         
         .card-container {
             display: grid;
@@ -40,13 +43,14 @@
 
         /* CARD STYLES */
         .card {
-            background: white; border-radius: 20px; padding: 25px 20px;
-            cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.95); /* Slight transparency */
+            border-radius: 20px; padding: 25px 20px;
+            cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-top: 6px solid #ccc;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        .card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .card:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 2; }
         .card-icon { font-size: 3rem; margin-bottom: 15px; }
         .card img { height: 70px; object-fit: contain; margin-bottom: 15px; }
         .card h3 { margin: 10px 0; color: #333; font-size: 1.2rem; font-weight: 700; }
@@ -58,27 +62,41 @@
             display: none; flex-direction: column; background: white; z-index: 10;
         }
         
-        .active-page { display: flex; animation: slideUpEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* --- NEW: DIFFERENT TRANSITIONS FOR DIFFERENT PAGES --- */
+        
+        /* Transition 1: ZOOM POP (Fun) */
+        .anim-pop { animation: zoomInEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes zoomInEnter { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
 
-        @keyframes slideUpEnter {
-            from { transform: translateY(100vh); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        /* Transition 2: SLIDE RIGHT (Action) */
+        .anim-slide { animation: slideRightEnter 0.5s ease-out; }
+        @keyframes slideRightEnter { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Transition 3: FLIP UP (Academic) */
+        .anim-flip { animation: flipUpEnter 0.7s ease; transform-origin: bottom; }
+        @keyframes flipUpEnter { from { opacity: 0; transform: rotateX(90deg); } to { opacity: 1; transform: rotateX(0); } }
+
+        /* Transition 4: FADE FLOAT (Formal) */
+        .anim-fade { animation: fadeFloatEnter 0.8s ease; }
+        @keyframes fadeFloatEnter { from { opacity: 0; transform: translateY(50px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
 
         /* Header */
         .detail-header {
             height: 12vh; padding: 0 40px; display: flex; align-items: center; justify-content: space-between;
-            color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 50; flex-shrink: 0;
-            padding-right: 100px; 
+            color: white; z-index: 50; flex-shrink: 0;
+            padding-right: 100px;
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); /* Glassmorphism */
+            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
-        .detail-header h1 { font-size: 4vh; margin: 0; text-transform: uppercase; font-weight: 900; }
+        .detail-header h1 { font-size: 4vh; margin: 0; text-transform: uppercase; font-weight: 900; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .header-logo { height: 8vh; background: white; border-radius: 8px; padding: 5px; }
 
         /* Main Content Area */
         .detail-main {
             flex: 1; position: relative; width: 100%; overflow: hidden;
             display: flex; align-items: flex-start; justify-content: center;
-            cursor: pointer; /* Shows clickable */
+            cursor: pointer;
         }
 
         /* Wrapper for Infinite Scroll */
@@ -92,143 +110,312 @@
 
         .content-logo { height: 20vh; width: auto; margin: 4vh auto; display: block; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
 
-        /* INFINITE SCROLL ANIMATION */
-        .infinite-scroll { 
-            animation: scrollLoop linear infinite; 
-            animation-delay: 2s; 
-        }
-        
-        /* CLASS TO PAUSE ANIMATION */
+        /* SCROLL ANIMATION */
+        .infinite-scroll { animation: scrollLoop linear infinite; animation-delay: 2s; }
         .paused { animation-play-state: paused !important; }
 
-        @keyframes scrollLoop {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-50%); } 
-        }
+        @keyframes scrollLoop { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
 
-        /* --- 4. FLOATING SIDEBAR (RIGHT) --- */
+        /* --- 4. ANIMATED BACKGROUNDS --- */
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+       /* --- ANIMATED BACKGROUNDS KEYFRAMES --- */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- SPECIFIC PAGE BACKGROUNDS (ALL ANIMATED) --- */
+
+/* 1. Prism (Rainbow) */
+#page-prism { 
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #ff9a9e); 
+    background-size: 400% 400%; 
+    animation: gradientBG 10s ease infinite; 
+}
+
+/* 2. Trackon (Red Sport) */
+#page-trackon { 
+    background: linear-gradient(-45deg, #ff416c, #ff4b2b, #ff9068, #ff416c); 
+    background-size: 400% 400%; 
+    animation: gradientBG 12s ease infinite; 
+    position: relative; 
+}
+
+/* 3. Lumina (Space Blue) */
+#page-lumina { 
+    background: linear-gradient(-45deg, #1a2980, #26d0ce, #2980b9, #1a2980); 
+    background-size: 400% 400%; 
+    animation: gradientBG 15s ease infinite; 
+    color: white; 
+}
+
+/* 4. Wow (Pastel Fun) */
+#page-wow { 
+    background: linear-gradient(-45deg, #a18cd1, #fbc2eb, #fdcbf1, #a18cd1); 
+    background-size: 400% 400%; 
+    animation: gradientBG 12s ease infinite; 
+}
+
+/* 5. Scholar (Warm Learning) */
+#page-scholar { 
+    background: linear-gradient(-45deg, #f6d365, #fda085, #fbc2eb, #f6d365); 
+    background-size: 400% 400%; 
+    animation: gradientBG 12s ease infinite; 
+}
+
+/* 6. Voice (News Grey) */
+#page-voice { 
+    background: linear-gradient(-45deg, #cfd9df, #e2ebf0, #a1c4fd, #cfd9df); 
+    background-size: 400% 400%; 
+    animation: gradientBG 15s ease infinite; 
+}
+
+/* 7. KYC (Bright Orange/Pink) */
+#page-kyc { 
+    background: linear-gradient(-45deg, #fa709a, #fee140, #ff9a9e, #fa709a); 
+    background-size: 400% 400%; 
+    animation: gradientBG 10s ease infinite; 
+}
+
+/* 8. Textbooks (Deep Gold) */
+#page-textbooks { 
+    background: linear-gradient(-45deg, #dbf01c, #d1a850, #f1c40f, #dbf01c); 
+    background-size: 400% 400%; 
+    animation: gradientBG 12s ease infinite; 
+    color: white; 
+}
+
+/* 9. Values (Deep Red) */
+#page-values { 
+    background: linear-gradient(-45deg, #ed213a, #93291e, #cb2d3e, #ed213a); 
+    background-size: 400% 400%; 
+    animation: gradientBG 15s ease infinite; 
+    color: white; 
+}
+
+/* 10. Inspection (Formal Dark) */
+#page-inspection { 
+    background: linear-gradient(-45deg, #414345, #232526, #2c3e50, #414345); 
+    background-size: 400% 400%; 
+    animation: gradientBG 18s ease infinite; 
+    color: white; 
+}
+
+/* 11. Artalia (Artistic Pink) */
+#page-artalia { 
+    background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fad0c4, #ff9a9e); 
+    background-size: 400% 400%; 
+    animation: gradientBG 12s ease infinite; 
+}
+
+/* 12. EC Mate (Green Growth) */
+#page-ecmate { 
+    background: linear-gradient(-45deg, #0ba360, #3cba92, #2ecc71, #0ba360); 
+    background-size: 400% 400%; 
+    animation: gradientBG 12s ease infinite; 
+}
+
+/* 13. Chisel (Teal Tool) */
+#page-chisel { 
+    background: linear-gradient(-45deg, #00cdac, #8ddad5, #4ecdc4, #00cdac); 
+   /* background-image: url('books/1.png'); */
+    background-size: 400% 400%; 
+    animation: gradientBG 15s ease infinite; 
+}
+
+/* Text color overrides for dark backgrounds to ensure readability */
+#page-lumina .scroll-content, 
+#page-values .scroll-content, 
+#page-inspection .scroll-content, 
+#page-textbooks .scroll-content { 
+    color: white; 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+}
+        /* --- 5. SIDEBAR & BUTTONS --- */
         .sidebar {
             position: fixed; right: 20px; top: 0; height: 100%; 
-            width: auto; /* Dynamic width */
-            display: flex; flex-direction: column; align-items: flex-end; /* Align to right */
-            justify-content: center;
-            gap: 15px; z-index: 200;
-            pointer-events: none; /* Let clicks pass through empty space */
-            display: none; 
+            width: auto; display: flex; flex-direction: column; align-items: flex-end; 
+            justify-content: center; gap: 15px; z-index: 200; pointer-events: none; display: none; 
         }
 
-        /* Individual Navigation Item (The Container) */
         .nav-item {
-            pointer-events: auto; /* Re-enable clicks */
-            display: flex; align-items: center; justify-content: flex-end;
-            background: white; 
-            border-radius: 50px; /* Pill Shape */
-            padding: 5px;
-            width: 55px; /* Initial Collapsed Width */
-            height: 55px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.2s;
-            overflow: hidden; /* Hide text when collapsed */
-            cursor: pointer;
-            border: 2px solid #eee;
+            pointer-events: auto; display: flex; align-items: center; justify-content: flex-end;
+            background: white; border-radius: 50px; padding: 5px; width: 55px; height: 55px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden; cursor: pointer; border: 2px solid #eee;
         }
-
-        /* Hover Effect: Expand Left */
-        .nav-item:hover {
-            width: 250px; /* Expanded Width */
-            border-color: #aaa;
-        }
-
-        .nav-item.active { border-color: #2196f3; box-shadow: 0 0 15px rgba(33, 150, 243, 0.4); }
-
-        /* The Icon Image */
-        .nav-icon-wrapper {
-            width: 45px; height: 45px; flex-shrink: 0;
-            border-radius: 50%; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-        }
+        .nav-item:hover { width: 200px; border-color: #aaa; }
+        .nav-item.active { border-color: #2196f3; box-shadow: 0 0 15px rgba(33, 150, 243, 0.4); transform: scale(1.1); }
+        
+        .nav-icon-wrapper { width: 45px; height: 45px; flex-shrink: 0; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .nav-icon-img { width: 100%; height: 100%; object-fit: cover; }
         .nav-icon-emoji { font-size: 1.5rem; }
-
-        /* The Text Label (Hidden initially) */
-        .nav-text {
-            white-space: nowrap;
-            margin-right: 15px; /* Space between text and icon */
-            margin-left: 15px;
-            font-weight: bold; color: #333; font-size: 1rem;
-            opacity: 0; transition: opacity 0.2s;
-            flex-grow: 1; text-align: right;
-        }
+        
+        .nav-text { white-space: nowrap; margin-right: 15px; margin-left: 15px; font-weight: bold; color: #333; font-size: 1rem; opacity: 0; transition: opacity 0.2s; flex-grow: 1; text-align: right; }
         .nav-item:hover .nav-text { opacity: 1; transition-delay: 0.1s; }
 
-
-        /* Home Button in Sidebar */
         .home-sidebar-btn { 
-            pointer-events: auto;
-            background: #2c3e50; color: white; margin-bottom: 10px; 
-            width: 55px; height: 55px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 1.5rem;
-            transition: transform 0.2s;
+            pointer-events: auto; background: #2c3e50; color: white; margin-bottom: 10px; 
+            width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 1.5rem; transition: transform 0.2s;
         }
         .home-sidebar-btn:hover { transform: scale(1.1); }
 
-        /* --- 5. NEXT BUTTON --- */
         .next-card {
-            position: fixed; bottom: 30px; right: 100px;
-            background: white; padding: 10px 20px; border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            display: flex; align-items: center; gap: 15px;
-            cursor: pointer; z-index: 100;
-            transition: 0.3s; border: 2px solid #eee;
-            display: none; 
+            position: fixed; bottom: 30px; right: 100px; background: white; padding: 10px 20px; border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 15px;
+            cursor: pointer; z-index: 100; transition: 0.3s; border: 2px solid #eee; display: none; 
         }
         .active-page ~ .next-card { display: flex; }
         .next-card:hover { transform: scale(1.05); border-color: #333; }
-        .next-label { font-size: 0.8rem; color: #888; text-transform: uppercase; font-weight: bold; }
-        .next-name { font-size: 1.1rem; font-weight: 900; color: #333; }
-
-        /* --- THEME COLORS --- */
-        .theme-scholar { border-top-color: #2980b9; } #page-scholar .detail-header { background: #2980b9; }
-        .theme-parenting { border-top-color: #e91e63; } #page-parenting .detail-header { background: linear-gradient(135deg, #e91e63, #ff80ab); }
-        .theme-lumina { border-top-color: #00bcd4; } #page-lumina .detail-header { background: #00bcd4; }
-        .theme-voice { border-top-color: #673ab7; } #page-voice .detail-header { background: #673ab7; }
-        .theme-trackon { border-top-color: #c0392b; } #page-trackon .detail-header { background: linear-gradient(135deg, #cb2d3e, #ef473a); }
-        .theme-inspection { border-top-color: #34495e; } #page-inspection .detail-header { background: #34495e; }
-        .theme-ecmate { border-top-color: #27ae60; } #page-ecmate .detail-header { background: #27ae60; }
-        .theme-values { border-top-color: #d4ac0d; } #page-values .detail-header { background: #d4ac0d; }
-        .theme-prism { border-top-color: #9c27b0; } #page-prism .detail-header { background: linear-gradient(90deg, violet, indigo, blue, green, orange, red); }
-        .theme-kyc { border-top-color: #F48120; } #page-kyc .detail-header { background: #F48120; }
-        .theme-wow { border-top-color: #2ecc71; } #page-wow .detail-header { background: #2ecc71; }
-        .theme-artalia { border-top-color: #9b59b6; } #page-artalia .detail-header { background: linear-gradient(to right, #e91e63, #3498db); }
-        .theme-chisel { border-top-color: #1abc9c; } #page-chisel .detail-header { background: #16a085; }
-        .theme-textbooks { border-top-color: #f39c12; } #page-textbooks .detail-header { background: #f39c12; }
+        
+        /* Mute Button */
+        #mute-btn { position: fixed; top: 20px; right: 20px; background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
         /* Utils */
         .highlight { font-weight: 900; font-size: 1.2em; display: block; margin: 10px 0; }
         hr { border: 0; height: 2px; background: rgba(0,0,0,0.1); margin: 30px auto; width: 50%; }
         @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* Floating Home Button */
-        .floating-home {
-            position: fixed; bottom: 30px; left: 30px;
-            background: rgba(0,0,0,0.6); color: white;
-            padding: 10px 20px; border-radius: 50px;
-            cursor: pointer; font-weight: bold; z-index: 100;
-            display: none;
-        }
-        .active-page ~ .floating-home { display: block; }
         
+        /* Floating Home */
+        .floating-home { position: fixed; bottom: 30px; left: 30px; background: rgba(0,0,0,0.6); color: white; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; z-index: 100; display: none; }
+        .active-page ~ .floating-home { display: block; }
+
+
+        /* --- VIBGYOR TEXT ANIMATION --- */
+.vibgyor-anim {
+    /* Define the Rainbow Gradient (Violet, Indigo, Blue, Green, Yellow, Orange, Red) */
+    background: linear-gradient(to right, 
+        #9400D3, #4B0082, #0000FF, #00FF00, #FFFF00, #FF7F00, #FF0000, #9400D3
+    );
+    
+    /* Clip the background to the text shape */
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* Make text transparent so background shows through */
+    color: transparent;
+    
+    /* Make background larger so it can move */
+    background-size: 200% auto;
+    
+    /* The Movement Animation */
+    animation: rainbowMove 3s linear infinite;
+    
+    /* Add a drop shadow (text-shadow doesn't work well with gradient text) */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    
+    /* Font sizing */
+    font-size: 5vh;
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+
+/* Define the movement */
+@keyframes rainbowMove {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* --- WOW KIDS SPECIAL STYLES --- */
+
+/* 1. Container for the slideshow */
+.wow-slideshow {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0; /* Behind content */
+    overflow: hidden;
+}
+
+/* 2. The Images */
+.wow-slideshow img {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; /* Fill screen */
+    opacity: 0; /* Hidden by default */
+    animation: slideFade 15s infinite; /* 15s total loop */
+}
+
+/* 3. The Colorful Overlay (To make text readable) */
+.wow-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,236,210,0.8) 50%, rgba(252,182,159,0.8) 100%);
+    z-index: 1;
+    backdrop-filter: blur(3px); /* Blur the book images slightly */
+}
+
+/* 4. Animation Timing for 3 Images */
+/* Image 1 starts immediately */
+.wow-slideshow img:nth-child(1) { animation-delay: 0s; }
+/* Image 2 starts after 5s */
+.wow-slideshow img:nth-child(2) { animation-delay: 5s; }
+/* Image 3 starts after 10s */
+.wow-slideshow img:nth-child(3) { animation-delay: 10s; }
+
+/* 5. The Fade Animation */
+@keyframes slideFade {
+    0% { opacity: 0; transform: scale(1); }
+    10% { opacity: 1; }  /* Fade In */
+    33% { opacity: 1; }  /* Stay Visible */
+    43% { opacity: 0; transform: scale(1.1); } /* Fade Out & Zoom */
+    100% { opacity: 0; }
+}
+
+/* 6. Colorful Text Styles */
+.wow-title {
+    font-size: 6vh;
+    font-weight: 900;
+    /* Gradient Text */
+    background: linear-gradient(to right, #ff00cc, #333399, #66ff66, #ffcc00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    animation: hueMove 3s infinite linear;
+}
+
+@keyframes hueMove {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* Ensure content sits on top */
+#page-wow .detail-header, 
+#page-wow .detail-main {
+    position: relative;
+    z-index: 5; /* Above slideshow */
+}
     </style>
 </head>
 <body>
+
+    <div id="audio-container">
+        <audio id="audio-scholar" src="music_scholar.mp3" loop></audio>
+        <audio id="audio-parenting" src="music_parenting.mp3" loop></audio>
+        <audio id="audio-lumina" src="music_lumina.mp3" loop></audio>
+        <audio id="audio-voice" src="music_voice.mp3" loop></audio>
+        <audio id="audio-trackon" src="music_trackon.mp3" loop></audio>
+        <audio id="audio-inspection" src="music_inspection.mp3" loop></audio>
+        <audio id="audio-ecmate" src="music_ecmate.mp3" loop></audio>
+        <audio id="audio-values" src="music_values.mp3" loop></audio>
+        <audio id="audio-prism" src="audio-prism.wav" loop></audio>
+        <audio id="audio-kyc" src="music_kyc.mp3" loop></audio>
+        <audio id="audio-wow" src="music_wow.mp3" loop></audio>
+        <audio id="audio-artalia" src="music_artalia.mp3" loop></audio>
+        <audio id="audio-chisel" src="music_chisel.mp3" loop></audio>
+        <audio id="audio-textbooks" src="music_textbooks.mp3" loop></audio>
+    </div>
+    <div id="mute-btn" onclick="toggleMute()">🔊</div>
 
     <div id="home-page" class="active-page">
         <header class="home-header">
             <h1>Asmi Group Portal</h1>
             <p>Select a module to start</p>
         </header>
-
         <main class="card-container">
             <div class="card theme-scholar" onclick="openPage('scholar')"><div class="card-icon">🎓</div><h3>Little Scholar</h3></div>
             <div class="card theme-parenting" onclick="openPage('parenting')"><div class="card-icon">👪</div><h3>Parenting</h3></div>
@@ -247,33 +434,33 @@
         </main>
     </div>
 
-    <div id="page-scholar" class="page-section">
+    <div id="page-scholar" class="page-section anim-flip">
         <header class="detail-header"><h1>Little Scholar</h1><img src="littlescholar.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="littlescholar.png" class="content-logo" onerror="this.style.display='none'">
             <p>കുഞ്ഞിൻറെ മനസ്സിൽ പിറവിയെടുക്കാൻ അവസരം തേടുന്ന...</p><p>പ്രതിഭയെ പുറത്തുകൊണ്ടുവരാൻ സഹായിക്കലാണ് ശരിയായ വിദ്യാഭ്യാസം.</p>
             <hr><p>മികവിൻ്റെ കരുത്തും പരിപോഷണങ്ങളുടെ കരുതലുമായി...</p><p>കുഞ്ഞു പ്രതിഭയെ കണ്ടെത്താൻ...</p>
-            <span class="highlight" style="color:#2980b9">പ്രതിഭാ നിർണയ ബഹുമുഖ നൈപുണി പരീക്ഷ</span><p>അസ്മി ലിറ്റിൽ സ്കോളർ</p>
+            <span class="highlight">പ്രതിഭാ നിർണയ ബഹുമുഖ നൈപുണി പരീക്ഷ</span><p>അസ്മി ലിറ്റിൽ സ്കോളർ</p>
             <img src="littlescholar.png" class="content-logo" onerror="this.style.display='none'">
         </div></div></main>
     </div>
 
-    <div id="page-parenting" class="page-section">
+    <div id="page-parenting" class="page-section anim-fade">
         <header class="detail-header"><h1>Parenting</h1><img src="parenting.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="parenting.png" class="content-logo" onerror="this.style.display='none'">
             <p>സ്നേഹമുള്ള ഹൃദയമാണ് കുഞ്ഞിൻ്റെ ആദ്യ പഠന മുറി.</p><p>മാതാവിൻറെ മടിത്തട്ടാണ് കുട്ടിയുടെ പ്രിയപ്പെട്ട ബെഞ്ച്.</p>
-            <hr><span class="highlight" style="color:#e91e63">പാരൻ്റ് സ്‌കൂളുമായി അസ്‌മി കൂടെയുണ്ട്.</span>
+            <hr><span class="highlight">പാരൻ്റ് സ്‌കൂളുമായി അസ്‌മി കൂടെയുണ്ട്.</span>
             <p>മികവ് തെളിയിക്കുന്നവർക്ക് ഉയർന്ന അവസരങ്ങളും ലഭിക്കുന്നു.</p>
             <img src="parenting.png" class="content-logo" onerror="this.style.display='none'">
         </div></div></main>
     </div>
 
-    <div id="page-lumina" class="page-section">
-        <header class="detail-header"><h1>Lumina</h1><img src="lumina.png" class="header-logo" onerror="this.style.display='none'"></header>
+    <div id="page-lumina" class="page-section anim-pop">
+        <header class="detail-header vibgyor-anim"><h1>Lumina</h1><img src="lumina.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="lumina.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#00bcd4">ASMI LUMINA SCIENCE FAIR</span>
+            <span class="highlight">ASMI LUMINA SCIENCE FAIR</span>
             <p>വിദ്യാർത്ഥികളിൽ കൗതുകബോധം, ശാസ്ത്രീയ അവബോധം,</p><p>യുക്തിചിന്തയും ലൗജിക്കൽ ചിന്താശേഷിയും വളർത്തുന്നതിന്.</p>
             <hr><span class="highlight">“ശാസ്ത്രം, സമൂഹം, ആത്മീയത”</span>
             <p>എന്ന ഏകീകൃത ആശയത്തെ ആധാരമാക്കിയാണ് സംഘടിപ്പിക്കുന്നത്.</p>
@@ -281,11 +468,11 @@
         </div></div></main>
     </div>
 
-    <div id="page-voice" class="page-section">
-        <header class="detail-header"><h1>Voice</h1><img src="voice.png" class="header-logo" onerror="this.style.display='none'"></header>
+    <div id="page-voice" class="page-section anim-slide">
+        <header class="detail-header vibgyor-anim"><h1>Voice</h1><img src="voice.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="voice.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#673ab7">ASMI VOICE</span>
+            <span class="highlight">ASMI VOICE</span>
             <p>Monthly Digital Tabloid: <em>The Pulse of ASMI Schools</em></p>
             <hr><p>സ്കൂളുകളുടെ സജീവതയും വൈവിധ്യവും അവതരിപ്പിക്കുകയും ചെയ്യുന്നതിനായി...</p>
             <p>രൂപകൽപ്പന ചെയ്ത സജീവമായ ഒരു <strong>ഡിജിറ്റൽ ടാബ്ലോയിഡാണ്</strong></p>
@@ -293,22 +480,22 @@
         </div></div></main>
     </div>
 
-    <div id="page-trackon" class="page-section">
-        <header class="detail-header"><h1>Trackon</h1><img src="trackon.png" class="header-logo" onerror="this.style.display='none'"></header>
+    <div id="page-trackon" class="page-section anim-slide">
+        <header class="detail-header vibgyor-anim"><h1>Trackon</h1><img src="trackon.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="trackon.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#c0392b">Track on Asmi Sports Meet</span>
+            <span class="highlight">Track on Asmi Sports Meet</span>
             <p>💪 ശാരീരിക ക്ഷമത</p><p>🤝 കായികമനോഭാവം</p><p>⏱️ ശിക്ഷണം</p><p>🏆 ടീം വർക്ക്</p>
             <p>എന്നിവ വളർത്തുന്നതിന് അസ്‍മി നടത്തുന്ന കായിക മത്സരമാണ്.</p>
             <img src="trackon.png" class="content-logo" onerror="this.style.display='none'">
         </div></div></main>
     </div>
 
-    <div id="page-inspection" class="page-section">
-        <header class="detail-header"><h1>Inspection</h1><img src="inspection.png" class="header-logo" onerror="this.style.display='none'"></header>
+    <div id="page-inspection" class="page-section anim-fade">
+        <header class="detail-header vibgyor-anim"><h1>Inspection</h1><img src="inspection.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="inspection.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#34495e">INSPECTION & GRADATION</span>
+            <span class="highlight">INSPECTION & GRADATION</span>
             <p>സ്ഥാപനങ്ങളുടെ അക്കാദമിക ഔന്നിത്യം, ഭൗതിക സൗകര്യങ്ങൾ,</p>
             <hr><p><strong>TEAM FOR EVALUATION AND MONITORING</strong></p>
             <p>സ്‌കൂൾ നേരിട്ട് സന്ദർശിച്ച് മൂല്യനിർണയം നടത്തി</p><p>ഗ്രേഡേഷനും അംഗീകാരവും നൽകുന്നു.</p>
@@ -316,11 +503,11 @@
         </div></div></main>
     </div>
 
-    <div id="page-ecmate" class="page-section">
-        <header class="detail-header"><h1>EC Mate</h1><img src="ecmate.png" class="header-logo" onerror="this.style.display='none'"></header>
+    <div id="page-ecmate" class="page-section anim-flip">
+        <header class="detail-header vibgyor-anim"><h1>EC Mate</h1><img src="ecmate.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="ecmate.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#27ae60">ASMI EC MATE</span>
+            <span class="highlight">ASMI EC MATE</span>
             <p>ഗുണമേന്മയുള്ള വിദ്യാഭ്യാസം കുഞ്ഞിൻറെ അവകാശമാണ്.</p>
             <hr><p>Early Child Management and Teacher Education</p>
             <p>കേന്ദ്ര ഗവൺമെന്റിൻ്റെ NCVT അംഗീകൃത സർട്ടിഫിക്കറ്റോടെ</p>
@@ -329,11 +516,11 @@
         </div></div></main>
     </div>
 
-    <div id="page-values" class="page-section">
-        <header class="detail-header"><h1>Values</h1><img src="values.png" class="header-logo" onerror="this.style.display='none'"></header>
+    <div id="page-values" class="page-section anim-fade">
+        <header class="detail-header vibgyor-anim"><h1>Values</h1><img src="values.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="values.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#d4ac0d">വിങ്സ് ഓഫ് വാല്യൂസ്</span>
+            <span class="highlight">വിങ്സ് ഓഫ് വാല്യൂസ്</span>
             <p>"തോണിക്കാരൻ്റെ തുഴപോലെ" പ്രധാനമാണ് ധാർമികത.</p>
             <hr><p>ഇരുലോക ജീവിതത്തിലും മികവ് നേടാനുള്ള</p>
             <p>മൂല്യ വിചാരം പകരുന്ന <strong>Value Education</strong> പഠന സീരീസ്</p>
@@ -342,23 +529,30 @@
         </div></div></main>
     </div>
 
-    <div id="page-prism" class="page-section">
-        <header class="detail-header"><h1>Prism</h1><img src="prism.png" class="header-logo" onerror="this.style.display='none'"></header>
-        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
-            <img src="prism.png" class="content-logo" onerror="this.style.display='none'">
-            <h2 style="background: linear-gradient(to right, violet, indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;">ASMI PRISM CADET</h2>
-            <p>സേവന സന്നദ്ധതയോടെ, സ്ഥാപനത്തിലെ മികവിൻ്റെ മാതൃകയായി...</p>
-            <hr><span class="highlight" style="color:indigo">33 അംഗ പ്രായോഗിക പരിശീലന വേദി</span>
-            <p>ഒഴുകിനൊത്ത് നീന്താനല്ല; ഒഴുക്കിനെതിരെ നീന്താനുള്ള അന്തരിക അച്ചടക്കബോധം (Internal Discipline)</p>
-            <img src="prism.png" class="content-logo" onerror="this.style.display='none'">
-        </div></div></main>
-    </div>
+    <div id="page-prism" class="page-section anim-pop">
+    <header class="detail-header vibgyor-anim"><h1>Prism</h1><img src="prism.png" class="header-logo" onerror="this.style.display='none'"></header>
+    <main class="detail-main" onclick="toggleScroll(this)">
+        <div class="loop-wrapper">
+            <div class="scroll-content">
+                <img src="prism.png" class="content-logo" onerror="this.style.display='none'">
+                
+                <h2 class="vibgyor-anim">ASMI PRISM CADET</h2>
+                
+                <p>സേവന സന്നദ്ധതയോടെ, സ്ഥാപനത്തിലെ മികവിൻ്റെ മാതൃകയായി...</p>
+                <hr>
+                <span class="highlight">33 അംഗ പ്രായോഗിക പരിശീലന വേദി</span>
+                <p>ഒഴുകിനൊത്ത് നീന്താനല്ല; ഒഴുക്കിനെതിരെ നീന്താനുള്ള അന്തരിക അച്ചടക്കബോധം (Internal Discipline)</p>
+                <img src="prism.png" class="content-logo" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </main>
+</div>
 
-    <div id="page-kyc" class="page-section">
+    <div id="page-kyc" class="page-section anim-flip">
         <header class="detail-header"><h1>KYC</h1><img src="kyc.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="kyc.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#F48120">ASMI KYC</span>
+            <span class="highlight">ASMI KYC</span>
             <p>കുട്ടിയെ യഥാർത്ഥത്തിൽ വിലയിരുത്താൻ ഇന്നത്തെ പരീക്ഷ രീതി അപര്യാപ്തമാണ്.</p>
             <hr><p>ആധികാരികവും ശാസ്ത്രീയവുമായ നിരന്തര മൂല്യനിർണയ പദ്ധതി.</p>
             <p>ഓരോ കുട്ടിക്കും സൗജന്യമായി നൽകുന്നു.</p>
@@ -366,23 +560,52 @@
         </div></div></main>
     </div>
 
-    <div id="page-wow" class="page-section">
-        <header class="detail-header"><h1>Wow Kids</h1><img src="wowkids.png" class="header-logo" onerror="this.style.display='none'"></header>
-        <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
-            <img src="wowkids.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#2ecc71">ASMI WOW KIDS</span>
-            <p>Interactive Ai Kids Magazine</p>
-            <hr><p>Wow Kids Academic Magazine</p>
-            <p>ഓരോ വിദ്യാർത്ഥിക്കും ഓരോ വർഷം <strong>മൂന്നെണ്ണം വീതം</strong> ലഭിക്കുന്നു.</p>
-            <img src="wowkids.png" class="content-logo" onerror="this.style.display='none'">
-        </div></div></main>
+    <div id="page-wow" class="page-section anim-pop">
+    
+    <div class="wow-slideshow">
+        <img src="books/1.png" alt="Book Bg 1">
+        <img src="books/2.jpg" alt="Book Bg 2">
+        <img src="books/3.jpg" alt="Book Bg 3">
     </div>
+    
+    <div class="wow-overlay"></div>
 
-    <div id="page-artalia" class="page-section">
+    <header class="detail-header">
+        <h1>Wow Kids</h1>
+        <img src="wowkids.png" class="header-logo" onerror="this.style.display='none'">
+    </header>
+
+    <main class="detail-main" onclick="toggleScroll(this)">
+        <div class="loop-wrapper">
+            <div class="scroll-content">
+                <img src="wowkids.png" class="content-logo" onerror="this.style.display='none'">
+                
+                <span class="wow-title">ASMI WOW KIDS</span>
+                
+                <p style="color: #444; margin-top: 20px;">
+                    Interactive <span style="color:#e91e63">Ai</span> Kids Magazine
+                </p>
+                
+                <hr style="border-color: #ff9800;">
+                
+                <div style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 15px; display: inline-block; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <p style="color:#2c3e50">Wow Kids Academic Magazine</p>
+                    <p>ഓരോ വിദ്യാർത്ഥിക്കും ഓരോ വർഷം</p>
+                    <p style="font-size: 5vh; color: #2ecc71;">മൂന്നെണ്ണം വീതം</p>
+                    <p>ലഭിക്കുന്നു.</p>
+                </div>
+                
+                <img src="wowkids.png" class="content-logo" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </main>
+</div>
+
+    <div id="page-artalia" class="page-section anim-pop">
         <header class="detail-header"><h1>Artalia</h1><img src="art.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="art.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#9b59b6">ASMI ARTALIA</span>
+            <span class="highlight">ASMI ARTALIA</span>
             <p>സർഗാത്മകഥകളുടെയും കലാരവങ്ങളുടെയും മൊഞ്ച് പൂക്കുന്ന...</p>
             <hr><p>അസ്‌മി ആർട്ടാലിയ (Asmi Artalia)</p>
             <p>സ്‌കൂൾ, മേഖല തലങ്ങളിലാണ് ഈ മത്സരങ്ങൾ നടക്കുന്നത്.</p>
@@ -390,22 +613,22 @@
         </div></div></main>
     </div>
 
-    <div id="page-chisel" class="page-section">
+    <div id="page-chisel" class="page-section anim-slide">
         <header class="detail-header"><h1>Chisel</h1><img src="chisel.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="chisel.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#1abc9c">ASMI CHISEL</span>
+            <span class="highlight">ASMI CHISEL</span>
             <p>എല്ലാ ജീവനക്കാർക്കും ഉൾക്കാഴ്ച്ച നൽകുന്ന നിരന്തര പരിശീലനങ്ങൾ.</p>
             <hr><p>സ്ഥാപന മേധാവികൾ</p><p>അധ്യാപകർ</p><p>ഓഫീസ് ജീവനക്കാർ</p>
             <img src="chisel.png" class="content-logo" onerror="this.style.display='none'">
         </div></div></main>
     </div>
 
-    <div id="page-textbooks" class="page-section">
+    <div id="page-textbooks" class="page-section anim-flip">
         <header class="detail-header"><h1>Textbooks</h1><img src="textbooks.png" class="header-logo" onerror="this.style.display='none'"></header>
         <main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="textbooks.png" class="content-logo" onerror="this.style.display='none'">
-            <span class="highlight" style="color:#f39c12">ASMI TEXTBOOKS</span>
+            <span class="highlight">ASMI TEXTBOOKS</span>
             <p>അന്താരാഷ്ട്ര നിലവാരമുള്ള പഠന പ്രവർത്തനങ്ങൾക്ക് ഊന്നൽ നൽകുന്ന...</p>
             <hr><p>വിദ്യാർത്ഥി സൗഹൃദ പാഠ്യപദ്ധതിയാണ്.</p>
             <p>അസ്‌മി കിഡ്‌സ് 1 മുതൽ 7 വരെ ക്ലാസുകളിലേക്ക്.</p>
@@ -415,14 +638,10 @@
 
 
     <div class="sidebar">
-        <div class="home-sidebar-btn" onclick="goHome()" title="Home">
-            <span>🏠</span>
-        </div>
-
+        <div class="home-sidebar-btn" onclick="goHome()" title="Home"><span>🏠</span></div>
         </div>
 
     <div class="floating-home" onclick="goHome()">🏠 Home</div>
-
     <div class="next-card" onclick="goToNext()">
         <div style="text-align:right">
             <div class="next-label">Next Module</div>
@@ -432,7 +651,6 @@
     </div>
 
     <script>
-        // Module Data
         const modules = [
             { id: 'scholar', name: 'Little Scholar', icon: '🎓', img: 'littlescholar.png' },
             { id: 'parenting', name: 'Parenting', icon: '👪', img: 'parenting.png' },
@@ -451,128 +669,97 @@
         ];
 
         let currentIndex = -1;
+        let isMuted = false;
+        let currentAudio = null;
 
-        // 1. Initialize Sidebar
         const sidebar = document.querySelector('.sidebar');
-        
         modules.forEach(m => {
             const navItem = document.createElement('div');
             navItem.className = 'nav-item';
             navItem.id = `nav-${m.id}`;
             navItem.onclick = () => openPage(m.id);
-
-            // Structure: Text Label + Icon Wrapper
-            const label = document.createElement('div');
-            label.className = 'nav-text';
-            label.innerText = m.name;
-
-            const iconWrapper = document.createElement('div');
-            iconWrapper.className = 'nav-icon-wrapper';
-            iconWrapper.innerHTML = `<img src="${m.img}" class="nav-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-                                     <div class="nav-icon-emoji" style="display:none">${m.icon}</div>`;
-
-            navItem.appendChild(label); // Label first (left)
-            navItem.appendChild(iconWrapper); // Icon second (right)
+            const label = document.createElement('div'); label.className = 'nav-text'; label.innerText = m.name;
+            const iconWrapper = document.createElement('div'); iconWrapper.className = 'nav-icon-wrapper';
+            iconWrapper.innerHTML = `<img src="${m.img}" class="nav-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><div class="nav-icon-emoji" style="display:none">${m.icon}</div>`;
+            navItem.appendChild(label); navItem.appendChild(iconWrapper);
             sidebar.appendChild(navItem);
         });
 
-        function openPage(pageId) {
-            // Find Index
-            currentIndex = modules.findIndex(m => m.id === pageId);
+        // --- AUDIO ---
+        function playModuleMusic(id) {
+            if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+            const newAudio = document.getElementById(`audio-${'prism'}`);
+            if (newAudio) {
+                currentAudio = newAudio;
+                if (!isMuted) newAudio.play().catch(e => console.log("Audio autoplay blocked"));
+            }
+        }
+        function stopAllMusic() { if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; } }
+        function toggleMute() {
+            isMuted = !isMuted;
+            document.getElementById('mute-btn').innerText = isMuted ? '🔇' : '🔊';
+            if (isMuted && currentAudio) currentAudio.pause();
+            if (!isMuted && currentAudio) currentAudio.play();
+        }
 
-            // Hide Home & Pages
+        // --- NAV ---
+        function openPage(pageId) {
+            currentIndex = modules.findIndex(m => m.id === pageId);
             document.getElementById('home-page').style.display = 'none';
             document.querySelectorAll('.page-section').forEach(p => {
-                p.classList.remove('active-page');
-                p.style.display = 'none';
-                
-                // Reset Scroll Logic
+                p.classList.remove('active-page'); p.style.display = 'none';
                 const wrapper = p.querySelector('.loop-wrapper');
                 if(wrapper) {
-                    wrapper.classList.remove('infinite-scroll');
-                    wrapper.classList.remove('paused'); // Reset pause
-                    wrapper.style.transform = 'translateY(0)';
-                    if(wrapper.children.length > 1) {
-                        wrapper.removeChild(wrapper.lastElementChild);
-                    }
+                    wrapper.classList.remove('infinite-scroll'); wrapper.classList.remove('paused'); wrapper.style.transform = 'translateY(0)';
+                    if(wrapper.children.length > 1) wrapper.removeChild(wrapper.lastElementChild);
                 }
             });
 
-            // Update Sidebar Active State
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(`nav-${pageId}`).classList.add('active');
 
-            // Show Target Page
             const target = document.getElementById(`page-${pageId}`);
             if(target) {
-                target.style.display = 'flex';
-                target.classList.add('active-page');
+                target.style.display = 'flex'; target.classList.add('active-page');
                 setTimeout(() => checkScroll(target), 100);
             }
+            sidebar.style.display = 'flex'; updateNextBtn();
+            playModuleMusic(pageId);
+        }
 
-            // Update Sidebar Visibility
-            sidebar.style.display = 'flex';
-
-            // Update Next Button
-            updateNextBtn();
+        function goHome() {
+            document.querySelectorAll('.page-section').forEach(p => p.style.display = 'none');
+            document.getElementById('home-page').style.display = 'block';
+            sidebar.style.display = 'none'; currentIndex = -1;
+            stopAllMusic();
         }
 
         function checkScroll(pageElement) {
             const container = pageElement.querySelector('.detail-main');
             const wrapper = pageElement.querySelector('.loop-wrapper');
             const content = pageElement.querySelector('.scroll-content');
-            
             if (!container || !content) return;
-
-            // Measure
-            const containerH = container.clientHeight;
-            const contentH = content.scrollHeight;
-
-            // IF CONTENT IS LONG: SETUP INFINITE LOOP
-            if (contentH > containerH) {
-                // 1. Clone content
-                const clone = content.cloneNode(true);
-                wrapper.appendChild(clone);
-                
-                // 2. Set animation speed
-                const duration = Math.max(20, contentH / 40); 
+            if (content.scrollHeight > container.clientHeight) {
+                const clone = content.cloneNode(true); wrapper.appendChild(clone);
+                const duration = Math.max(20, content.scrollHeight / 40); 
                 wrapper.style.animationDuration = duration + 's';
-                
-                // 3. Start animation
                 wrapper.classList.add('infinite-scroll');
             }
         }
 
-        // TOGGLE SCROLL PLAY/PAUSE
         function toggleScroll(pageElement) {
             const wrapper = pageElement.querySelector('.loop-wrapper');
-            if (wrapper && wrapper.classList.contains('infinite-scroll')) {
-                if (wrapper.classList.contains('paused')) {
-                    wrapper.classList.remove('paused'); // Resume
-                } else {
-                    wrapper.classList.add('paused'); // Pause
-                }
-            }
+            if (wrapper && wrapper.classList.contains('infinite-scroll')) wrapper.classList.toggle('paused');
         }
 
         function updateNextBtn() {
-            let nextIdx = currentIndex + 1;
-            if (nextIdx >= modules.length) nextIdx = 0; // Loop back
-            const nextMod = modules[nextIdx];
-            document.getElementById('next-btn-text').innerText = nextMod.name;
+            let nextIdx = currentIndex + 1; if (nextIdx >= modules.length) nextIdx = 0;
+            document.getElementById('next-btn-text').innerText = modules[nextIdx].name;
         }
 
         function goToNext() {
-            let nextIdx = currentIndex + 1;
-            if (nextIdx >= modules.length) nextIdx = 0;
+            let nextIdx = currentIndex + 1; if (nextIdx >= modules.length) nextIdx = 0;
             openPage(modules[nextIdx].id);
-        }
-
-        function goHome() {
-            document.querySelectorAll('.page-section').forEach(p => p.style.display = 'none');
-            document.getElementById('home-page').style.display = 'block';
-            sidebar.style.display = 'none'; // Hide sidebar on home
-            currentIndex = -1;
         }
     </script>
 </body>
