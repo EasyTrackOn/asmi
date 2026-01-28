@@ -7,7 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;700;900&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. GLOBAL RESET --- */
+        /* ========================================= */
+        /* === 1. GLOBAL RESET & BASICS === */
+        /* ========================================= */
         * { box-sizing: border-box; }
         body {
             font-family: 'Poppins', 'Noto Sans Malayalam', sans-serif;
@@ -15,9 +17,12 @@
             height: 100vh; width: 100vw;
             overflow: hidden;
             background: #2c3e50;
+            text-transform: uppercase;
         }
 
-        /* --- 2. HOME PAGE --- */
+        /* ========================================= */
+        /* === 2. HOME PAGE (DESKTOP DEFAULT) === */
+        /* ========================================= */
         #home-page {
             width: 100%; height: 100%;
             overflow-y: auto;
@@ -49,11 +54,12 @@
         .card img { height: 70px; object-fit: contain; margin-bottom: 15px; }
         .card h3 { margin: 10px 0; color: #333; font-size: 1.2rem; font-weight: 800; }
 
-        /* --- 3. SPLIT SCREEN LAYOUT --- */
+        /* ========================================= */
+        /* === 3. SPLIT SCREEN LAYOUT (DESKTOP) === */
+        /* ========================================= */
         .page-section {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             display: none; z-index: 10;
-            /* Backgrounds applied here now for full coverage */
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
         }
@@ -64,7 +70,7 @@
         .left-panel {
             flex: 2; height: 100%;
             display: flex; flex-direction: column;
-            background: rgba(255,255,255,0.85); /* Semi-transparent White */
+            background: rgba(255,255,255,0.85);
             backdrop-filter: blur(15px);
             box-shadow: 10px 0 30px rgba(0,0,0,0.1);
             z-index: 2;
@@ -73,27 +79,26 @@
         /* RIGHT SIDE (Images) */
         .right-panel {
             flex: 1; height: 100%;
-            /* No background color, letting the main gradient show through */
             display: flex; align-items: center; justify-content: center;
             overflow: hidden; position: relative;
         }
 
-        /* Image Scroller */
+        /* Image Scroller (Default Vertical) */
         .image-scroller {
             display: flex; flex-direction: column; gap: 40px;
             width: 70%;
             animation: verticalScroll 25s linear infinite;
         }
         
-        /* The Card for Images or Icons */
         .scroller-item {
-            width: 100%; aspect-ratio: 1/1; /* Square */
+            width: 100%; aspect-ratio: 1/1;
             border-radius: 20px;
             background: rgba(255,255,255,0.9);
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             display: flex; align-items: center; justify-content: center;
             overflow: hidden; padding: 20px;
             transition: transform 0.3s;
+            flex-shrink: 0;
         }
         .scroller-item:hover { transform: scale(1.05); }
 
@@ -106,6 +111,7 @@
         }
 
         @keyframes verticalScroll { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+        @keyframes horizontalScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- CONTENT STYLING --- */
         .detail-header {
@@ -146,6 +152,16 @@
         #page-artalia { background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fad0c4); }
         #page-ecmate { background: linear-gradient(-45deg, #0ba360, #3cba92, #2ecc71); }
         #page-chisel { background: linear-gradient(-45deg, #00cdac, #8ddad5, #4ecdc4); }
+        /* NEW PAGES GRADIENTS */
+        #page-hope { background: linear-gradient(-45deg, #fce38a, #f38181); }
+        #page-affiliation { background: linear-gradient(-45deg, #43cea2, #185a9d); }
+        #page-examination { background: linear-gradient(-45deg, #4b6cb7, #182848); }
+        #page-atet { background: linear-gradient(-45deg, #f857a6, #ff5858); }
+        #page-morallight { background: linear-gradient(-45deg, #d4fc79, #96e6a1); }
+        #page-smarttalk { background: linear-gradient(-45deg, #667db6, #0082c8, #0082c8, #667db6); }
+        #page-lense { background: linear-gradient(-45deg, #30cfd0, #330867); }
+        #page-mentora { background: linear-gradient(-45deg, #a8edea, #fed6e3); }
+
 
         .vibgyor-anim { background: linear-gradient(to right, #9400D3, #4B0082, #0000FF, #00FF00, #FFFF00, #FF7F00, #FF0000, #9400D3); -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: rainbowMove 3s linear infinite; font-size: 5vh; font-weight: 900; margin-bottom: 20px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
         @keyframes rainbowMove { to { background-position: 200% center; } }
@@ -157,15 +173,16 @@
         .highlight { font-weight: 900; font-size: 1.2em; display: block; margin: 10px 0; color: #d32f2f; }
         hr { border: 0; height: 3px; background: rgba(0,0,0,0.1); margin: 30px auto; width: 40%; border-radius: 2px; }
 
-        /* --- UI CONTROLS (MOVED TO RIGHT) --- */
+        /* ========================================= */
+        /* === 4. UI CONTROLS (DESKTOP DEFAULT) === */
+        /* ========================================= */
         .sidebar { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 200; display: none; }
         
-        .nav-item { width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; transition: 0.3s; border: 3px solid white; }
+        .nav-item { width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; transition: 0.3s; border: 3px solid white; flex-shrink: 0; }
         .nav-item:hover { transform: scale(1.2); }
         .nav-item.active { border-color: #2196f3; background: #e3f2fd; }
         .nav-icon-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
         
-        /* Floating Controls Container (Bottom Right) */
         .controls-container {
             position: fixed; bottom: 30px; right: 30px;
             display: flex; flex-direction: column; align-items: flex-end; gap: 15px;
@@ -187,44 +204,168 @@
         .next-card:hover { transform: scale(1.05); }
         
         .speed-control { 
-            background: rgba(255,255,255,0.95); padding: 8px 20px; border-radius: 50px; 
-            display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-            font-weight: bold; font-size: 0.8rem; color: #555;
+            background: rgba(255,255,255,0.95); 
+            padding: 15px 10px; 
+            border-radius: 50px;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+            font-weight: bold; 
+            font-size: 0.7rem; 
+            color: #555;
+            order: 1; 
         }
-        input[type=range] { width: 100px; cursor: pointer; accent-color: #2c3e50; }
+
+        input[type=range] { 
+            width: 80px; height: 20px; cursor: pointer; accent-color: #2c3e50; 
+            transform: rotate(-90deg); margin: 30px 0; 
+        }
         
         .active-page ~ .controls-container, .active-page ~ .sidebar { display: flex; }
-        .controls-container { display: none; } /* Hidden on home */
+        .controls-container { display: none; } 
 
+        /* Page Animations */
         .anim-cinematic { animation: cinematicEnter 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes cinematicEnter { 0% { opacity: 0; transform: scale(1.05) translateY(20px); filter: blur(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
+        .anim-pop { animation: popEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popEnter { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        .anim-slide-up { animation: slideUpEnter 0.5s ease-out; }
+        @keyframes slideUpEnter { from { opacity: 0; transform: translateY(100vh); } to { opacity: 1; transform: translateY(0); } }
+        .anim-flip { animation: flipEnter 0.7s ease-out; transform-origin: center; }
+        @keyframes flipEnter { from { opacity: 0; transform: perspective(1000px) rotateX(-90deg); } to { opacity: 1; transform: perspective(1000px) rotateX(0); } }
+        .anim-blur { animation: blurEnter 0.8s ease; }
+        @keyframes blurEnter { from { opacity: 0; filter: blur(20px); transform: scale(1.1); } to { opacity: 1; filter: blur(0); transform: scale(1); } }
+        .anim-swipe { animation: swipeEnter 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
+        @keyframes swipeEnter { from { opacity: 0; transform: translateX(-100%); } to { opacity: 1; transform: translateX(0); } }
 
-@keyframes cinematicEnter {
-    0% { opacity: 0; transform: scale(1.05) translateY(20px); filter: blur(10px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
-}
+        /* ========================================= */
+        /* === 5. MOBILE SPECIFIC STYLES (MERGED) === */
+        /* ========================================= */
+        @media (max-width: 768px) {
+            
+            /* 5.1 HEADER */
+            .home-header { padding: 40px 1px 2px; }
+            .home-header h1 { font-size: 1.1rem; letter-spacing: 1px; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+            .home-header p { font-size: 0.9rem; margin-top: 2px; }
+            
+            /* 5.2 CARD GRID (3 COLUMNS) */
+            .card-container {
+                grid-template-columns: repeat(3, 1fr) !important; 
+                gap: 8px; 
+                padding: 10px;
+                margin-bottom: 20px;
+            }
 
-/* --- RANDOM PAGE TRANSITIONS --- */
+            .card {
+                padding: 10px 5px; 
+                min-height: 90px;
+                border-radius: 12px;
+            }
 
-/* 1. Zoom Pop (Bouncy) */
-.anim-pop { animation: popEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-@keyframes popEnter { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+            .card img { height: 35px; margin-bottom: 5px; }
 
-/* 2. Slide Up (Smooth) */
-.anim-slide-up { animation: slideUpEnter 0.5s ease-out; }
-@keyframes slideUpEnter { from { opacity: 0; transform: translateY(100vh); } to { opacity: 1; transform: translateY(0); } }
+            .card h3 { 
+                font-size: 0.65rem; 
+                margin: 0;
+                line-height: 1.2;
+                white-space: normal; /* Allow Wrapping for JS line break */
+                display: flex; align-items: center; justify-content: center;
+                height: 30px;
+                text-align: center;
+                width: 100%;
+            }
 
-/* 3. 3D Flip (Cool) */
-.anim-flip { animation: flipEnter 0.7s ease-out; transform-origin: center; }
-@keyframes flipEnter { from { opacity: 0; transform: perspective(1000px) rotateX(-90deg); } to { opacity: 1; transform: perspective(1000px) rotateX(0); } }
+            /* 5.3 SPLIT LAYOUT (STACKED) */
+            .split-container { flex-direction: column; }
 
-/* 4. Blur Fade (Cinematic) */
-.anim-blur { animation: blurEnter 0.8s ease; }
-@keyframes blurEnter { from { opacity: 0; filter: blur(20px); transform: scale(1.1); } to { opacity: 1; filter: blur(0); transform: scale(1); } }
+            .left-panel {
+                flex: initial; height: 60%; width: 100%;
+                border-bottom: 2px solid rgba(0,0,0,0.1);
+                padding-top: 60px; /* Space for Top Nav */
+            }
 
-/* 5. Swipe Right (Fast) */
-.anim-swipe { animation: swipeEnter 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
-@keyframes swipeEnter { from { opacity: 0; transform: translateX(-100%); } to { opacity: 1; transform: translateX(0); } }
+            .right-panel {
+                flex: initial; height: 40%; width: 100%;
+                background: rgba(255,255,255,0.2);
+            }
 
+            /* 5.4 SCROLLING BEHAVIOR (Hybrid Auto/Manual) */
+            .detail-main {
+                overflow: hidden; /* Start hidden for animation */
+            }
+            .detail-main.manual-mode {
+                overflow-y: auto !important; /* Enable scroll on touch */
+            }
+
+            /* 5.5 TOP NAVIGATION */
+            .sidebar {
+                top: 0; right: 0; left: 0; transform: none;
+                width: 100%; height: 60px;
+                flex-direction: row; align-items: center;
+                overflow-x: auto; padding: 0 10px;
+                background: rgba(255,255,255,0.98);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                border-bottom: 1px solid #ddd;
+                -ms-overflow-style: none; scrollbar-width: none;
+            }
+            .sidebar::-webkit-scrollbar { display: none; }
+
+            .nav-item {
+                margin-right: 12px; width: 40px; height: 40px;
+                flex-shrink: 0; border-width: 2px;
+            }
+
+            /* 5.6 HORIZONTAL IMAGE SCROLLER */
+            .image-scroller {
+                flex-direction: row; width: auto; height: 85%;
+                gap: 15px; animation: horizontalScroll 20s linear infinite;
+            }
+            .scroller-item { height: 100%; width: auto; aspect-ratio: 1/1; border-radius: 12px; }
+
+            /* 5.7 TEXT STYLING */
+            .detail-header { height: 8vh; padding: 0 15px; }
+            .detail-header h1 { font-size: 1.2rem; }
+            .header-logo { height: 35px; }
+            
+            .scroll-content { font-size: 1rem; line-height: 1.5; padding: 10px 0; }
+            .content-logo { height: 80px; margin: 1vh auto; }
+            .vibgyor-anim, .wow-title { font-size: 1.8rem; }
+
+            /* 5.8 CONTROLS (HORIZONTAL BOTTOM) */
+            .controls-container {
+                display: flex; flex-direction: row; align-items: center;
+                bottom: 20px; right: 15px; gap: 12px;
+                width: auto; z-index: 200;
+            }
+            
+            /* Speed Control (Horizontal Slider) */
+            .speed-control {
+                flex-direction: row; padding: 5px 5px; height: 40px;
+                margin: 0; transform: none; order: 3; gap: 5px;
+            }
+            .speed-control span { display: none; }
+            input[type=range] { width: 80px; height: 5px; margin: 0; transform: none; }
+
+            /* Next Button */
+            .next-card {
+                order: 2; padding: 5px 15px; height: 45px; gap: 10px;
+            }
+            .next-card div[style*="font-size:1.5rem"] { font-size: 1.2rem !important; }
+            .next-card #next-btn-text {
+                font-size: 0.8rem; max-width: 80px;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            }
+            .next-card div[style*="font-size:0.7em"] { display: none; }
+
+            /* Home Button (Circle) */
+            .floating-home {
+                order: 1; width: 45px; height: 45px; padding: 0;
+                border-radius: 50%; justify-content: center; font-size: 1.2rem;
+            }
+            .floating-home span { margin: 0; }
+        }
+#mute-btn { position: fixed; top: 20px; right: 20px; background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
@@ -245,6 +386,7 @@
         <audio id="audio-chisel" src="music_chisel.mp3" loop></audio>
         <audio id="audio-textbooks" src="music_textbooks.mp3" loop></audio>
     </div>
+    <div id="mute-btn" onclick="toggleMute()">🔊</div>
 
     <div id="home-page" class="active-page">
         <header class="home-header"><h1>Asmi Group Portal</h1><p>Select a module to start</p></header>
@@ -429,18 +571,112 @@
         <div class="right-panel" id="img-textbooks"></div>
     </div></div>
 
+    <div id="page-affiliation" class="page-section"><div class="split-container">
+        <div class="left-panel"><header class="detail-header"><h1>Affiliation</h1><img src="affiliation.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="affiliation.png" class="content-logo">
+            <span class="highlight">ASMI Affiliation</span>
+            <p>ASMI ഗ്രൂപ്പിലേക്കുള്ള അഫിലിയേഷൻ നടപടിക്രമങ്ങൾ.</p>
+            <hr>
+            <p>Details regarding affiliation standards and procedures go here.</p>
+        </div></div></main></div>
+        <div class="right-panel" id="img-affiliation"></div>
+    </div></div>
+
+    <div id="page-examination" class="page-section"><div class="split-container">
+        <div class="left-panel"><header class="detail-header"><h1>Examination</h1><img src="examination.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="examination.png" class="content-logo">
+            <span class="highlight">Examination Board</span>
+            <p>കൃത്യവും സുതാര്യവുമായ പരീക്ഷാ നടത്തിപ്പ്.</p>
+            <hr>
+            <p>Details about examination schedules and grading systems go here.</p>
+        </div></div></main></div>
+        <div class="right-panel" id="img-examination"></div>
+    </div></div>
+
+    <div id="page-hope" class="page-section"><div class="split-container">
+        <div class="left-panel"><header class="detail-header"><h1>Asmi Hope</h1><img src="hope.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="hope.png" class="content-logo">
+            <span class="highlight">ASMI HOPE</span>
+            <p>പ്രതീക്ഷയുടെ പുതിയ കിരണങ്ങൾ...</p>
+            <hr>
+            <p>Content regarding ASMI Hope initiatives goes here.</p>
+        </div></div></main></div>
+        <div class="right-panel" id="img-hope"></div>
+    </div></div>
+
+    <div id="page-atet" class="page-section"><div class="split-container">
+        <div class="left-panel"><header class="detail-header"><h1>A-TET</h1><img src="atet.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="atet.png" class="content-logo">
+            <span class="highlight">Asmi Teacher Eligibility Test</span>
+            <p>അധ്യാപകരുടെ ഗുണനിലവാരം ഉറപ്പുവരുത്തുന്നതിനായുള്ള യോഗ്യതാ പരീക്ഷ.</p>
+            <hr>
+            <p>Details regarding the TET exam structure and benefits.</p>
+        </div></div></main></div>
+        <div class="right-panel" id="img-atet"></div>
+    </div></div>
+
+    <div id="page-morallight" class="page-section"><div class="split-container">
+        <div class="left-panel"><header class="detail-header"><h1>Moral Light</h1><img src="morallight.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="morallight.png" class="content-logo">
+            <span class="highlight">Moral Light</span>
+            <p>ധാർമിക മൂല്യങ്ങളുടെ വെളിച്ചം പകരൂ.</p>
+            <hr>
+            <p>Content regarding moral education curriculum goes here.</p>
+        </div></div></main></div>
+        <div class="right-panel" id="img-morallight"></div>
+    </div></div>
+
+    <div id="page-smarttalk" class="page-section"><div class="split-container">
+        <div class="left-panel"><header class="detail-header"><h1>Smart Talk</h1><img src="smarttalk.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="smarttalk.png" class="content-logo">
+            <span class="highlight">Smart Talk Series</span>
+            <p>ആശയവിനിമയ ശേഷി വർദ്ധിപ്പിക്കാൻ.</p>
+            <hr>
+            <p>Details regarding public speaking and communication programs.</p>
+        </div></div></main></div>
+        <div class="right-panel" id="img-smarttalk"></div>
+    </div></div>
+
+    <div id="page-lense" class="page-section"><div class="split-container">
+        <div class="left-panel"><header class="detail-header"><h1>Lense</h1><img src="lense.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="lense.png" class="content-logo">
+            <span class="highlight">ASMI LENSE</span>
+            <p>സൂക്ഷ്മമായ നിരീക്ഷണം, കൃത്യമായ വിലയിരുത്തൽ.</p>
+            <hr>
+            <p>Details regarding monitoring and observation tools.</p>
+        </div></div></main></div>
+        <div class="right-panel" id="img-lense"></div>
+    </div></div>
+
+    <div id="page-mentora" class="page-section"><div class="split-container">
+        <div class="left-panel"><header class="detail-header"><h1>Mentora</h1><img src="mentora.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
+            <img src="mentora.png" class="content-logo">
+            <span class="highlight">Mentora Teachers Empowerment</span>
+            <p>അധ്യാപക ശാക്തീകരണം - മികവിന്റെ പാതയിൽ.</p>
+            <hr>
+            <p>Training programs and empowerment workshops for teachers.</p>
+        </div></div></main></div>
+        <div class="right-panel" id="img-mentora"></div>
+    </div></div>
+
+
     <div class="sidebar"></div>
     
     <div class="controls-container">
         <div class="speed-control">
-            <span>Slow</span><input type="range" min="10" max="100" value="40" oninput="updateSpeed(this.value)"><span>Fast</span>
+            <span>Fast</span>
+            <input type="range" min="10" max="100" value="40" oninput="updateSpeed(this.value)">
+            <span>Slow</span>
         </div>
         <div class="next-card" onclick="goToNext()">
-            <div style="text-align:right"><div style="font-size:0.7em; color:#888">NEXT</div><div id="next-btn-text">Parenting</div></div>
+            <div style="text-align:right">
+                <div style="font-size:0.7em; color:#888">NEXT</div>
+                <div id="next-btn-text">Parenting</div>
+            </div>
             <div style="font-size:1.5rem">➡️</div>
         </div>
         <div class="floating-home" onclick="goHome()">
-            <span>🏠</span> Home
+            <span>🏠</span>
         </div>
     </div>
 
@@ -451,35 +687,49 @@
         { id: 'lumina', name: 'Lumina', icon: '🔬', img: 'lumina.png' },
         { id: 'voice', name: 'Voice', icon: '📢', img: 'voice.png' },
         { id: 'trackon', name: 'Trackon', icon: '🏃', img: 'trackon.png' },
-        { id: 'inspection', name: 'Inspection', icon: '📋', img: 'inspection.png' },
+        { id: 'inspection', name: 'Inspection & Gradation', icon: '📋', img: 'inspection.png' }, 
         { id: 'ecmate', name: 'EC Mate', icon: '👩‍🏫', img: 'ecmate.png' },
         { id: 'values', name: 'Values', icon: '🕊️', img: 'values.png' },
-        { id: 'prism', name: 'Prism', icon: '🌈', img: 'prism.png' },
+        { id: 'prism', name: 'Prism Cadet', icon: '🌈', img: 'prism.png' },
         { id: 'kyc', name: 'KYC', icon: '🔍', img: 'kyc.png' },
         { id: 'wow', name: 'Wow Kids', icon: '🌟', img: 'wowkids.png' },
         { id: 'artalia', name: 'Artalia', icon: '🎨', img: 'art.png' },
         { id: 'chisel', name: 'Chisel', icon: '🛠️', img: 'chisel.png' },
-        { id: 'textbooks', name: 'Textbooks', icon: '📚', img: 'textbooks.png' }
+        { id: 'textbooks', name: 'Textbooks', icon: '📚', img: 'textbooks.png' },
+        
+        // --- NEW MODULES ---
+        { id: 'affiliation', name: 'Affiliation', icon: '🤝', img: 'affiliation.png' },
+        { id: 'examination', name: 'Examination', icon: '📝', img: 'examination.png' },
+        { id: 'hope', name: 'Asmi Hope', icon: '☀️', img: 'hope.png' },
+        { id: 'atet', name: 'A-TET', icon: '🖊️', img: 'atet.png' },
+        { id: 'morallight', name: 'Moral Light', icon: '💡', img: 'morallight.png' },
+        { id: 'smarttalk', name: 'Smart Talk', icon: '🎙️', img: 'smarttalk.png' },
+        { id: 'lense', name: 'Lense', icon: '🔎', img: 'lense.png' },
+        { id: 'mentora', name: 'Mentora', icon: '🧘', img: 'mentora.png' }
     ];
 
     let currentIndex = -1;
     let isMuted = false;
     let currentAudio = null;
     let baseSpeed = 40; 
+    const animClasses = ['anim-pop', 'anim-slide-up', 'anim-flip', 'anim-blur', 'anim-swipe'];
 
     // 1. Populate Home & Sidebar
     const container = document.querySelector('.card-container');
     const sidebar = document.querySelector('.sidebar');
     
     modules.forEach(m => {
+        // Handle name length for 2-line break on mobile
+        const displayName = m.name.length > 10 ? m.name.replace(' ', '<br>') : m.name;
+
         // Home Grid
         const card = document.createElement('div');
         card.className = `card theme-${m.id}`;
         card.onclick = () => openPage(m.id);
-        card.innerHTML = `<img src="${m.img}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="card-icon" style="display:none">${m.icon}</div><h3>${m.name}</h3>`;
+        card.innerHTML = `<img src="${m.img}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="card-icon" style="display:none">${m.icon}</div><h3>${displayName}</h3>`;
         container.appendChild(card);
 
-        // Sidebar
+        // Sidebar (Now Topbar on Mobile)
         const navItem = document.createElement('div');
         navItem.className = 'nav-item';
         navItem.id = `nav-${m.id}`;
@@ -488,7 +738,7 @@
         sidebar.appendChild(navItem);
     });
 
-    // 2. Generate Right Panel with 3-Step Fallback
+    // 2. Generate Right Panel Images
     function populateImages(pageId, emblemSrc, iconChar) {
         const container = document.getElementById(`img-${pageId}`);
         if(!container) return;
@@ -497,8 +747,8 @@
         const scroller = document.createElement('div');
         scroller.className = 'image-scroller';
         
-        // How many specific images to try per folder?
-        const imageCount = 5; 
+        // Increased count to ensure horizontal scroll fills width
+        const imageCount = 8; 
 
         // Generate Loop (2 Sets for smooth infinite scroll)
         for(let k=0; k<2; k++) {
@@ -506,25 +756,19 @@
                 const item = document.createElement('div');
                 item.className = 'scroller-item';
                 
-                // Priority 1: Folder Image (e.g., scholar/1.jpg)
                 const img = document.createElement('img');
                 img.src = `${pageId}/${i}.jpg`; 
                 img.className = 'right-image';
                 
-                // Fallback Icon Element (Hidden initially)
                 const icon = document.createElement('div');
                 icon.className = 'fallback-icon';
                 icon.innerText = iconChar;
 
-                // SMART ERROR HANDLER
                 img.onerror = function() {
-                    // Check if we have already tried the emblem
                     if (!this.hasAttribute('data-fallback')) {
-                        // Fail 1: Try Loading Emblem
                         this.src = emblemSrc; 
                         this.setAttribute('data-fallback', 'true');
                     } else {
-                        // Fail 2: Emblem failed too -> Show Icon
                         this.style.display = 'none';
                         this.nextElementSibling.style.display = 'flex'; 
                     }
@@ -540,75 +784,75 @@
 
     function playModuleMusic(id) {
         if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
-        const newAudio = document.getElementById(`audio-${'prism'}`);
+        const newAudio = document.getElementById(`audio-${id}`) || document.getElementById(`audio-scholar`);
         if (newAudio) {
             currentAudio = newAudio;
             if (!isMuted) newAudio.play().catch(e => console.log("Autoplay prevented"));
         }
     }
     function stopAllMusic() { if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; } }
+
     function toggleMute() {
-        isMuted = !isMuted;
-        document.getElementById('mute-btn').innerText = isMuted ? '🔇' : '🔊';
-        if (isMuted && currentAudio) currentAudio.pause();
-        if (!isMuted && currentAudio) currentAudio.play();
+    isMuted = !isMuted;
+    document.getElementById('mute-btn').innerText = isMuted ? '🔇' : '🔊';
+
+    if (currentAudio) {
+      if (isMuted) currentAudio.pause();
+      else currentAudio.play().catch(() => console.log("Autoplay prevented"));
     }
-
-    // Define the list of available animations
-const animClasses = ['anim-pop', 'anim-slide-up', 'anim-flip', 'anim-blur', 'anim-swipe'];
-
-function openPage(pageId) {
-    currentIndex = modules.findIndex(m => m.id === pageId);
-    
-    // Hide Home
-    document.getElementById('home-page').style.display = 'none';
-    
-    // Hide all pages & Reset Logic
-    document.querySelectorAll('.page-section').forEach(p => {
-        p.style.display = 'none';
+  }
+    function openPage(pageId) {
+        currentIndex = modules.findIndex(m => m.id === pageId);
         
-        // Remove ALL animation classes so they can be re-added fresh
-        p.classList.remove(...animClasses); 
-
-        const main = p.querySelector('.detail-main');
-        if (main) main.classList.remove('manual-mode');
+        document.getElementById('home-page').style.display = 'none';
         
-        const wrapper = p.querySelector('.loop-wrapper');
-        if(wrapper) {
-            wrapper.classList.remove('infinite-scroll'); 
-            wrapper.style.transform = 'translateY(0)';
-            const clone = wrapper.querySelector('.clone'); 
-            if(clone) clone.remove();
+        document.querySelectorAll('.page-section').forEach(p => {
+            p.style.display = 'none';
+            p.classList.remove(...animClasses); 
+
+            const main = p.querySelector('.detail-main');
+            if (main) {
+                main.classList.remove('manual-mode');
+                // IMPORTANT: Add Touch Listener for Mobile
+                main.ontouchstart = function() { toggleScroll(this); };
+            }
+            
+            const wrapper = p.querySelector('.loop-wrapper');
+            if(wrapper) {
+                wrapper.classList.remove('infinite-scroll'); 
+                wrapper.style.transform = 'translateY(0)';
+                const clone = wrapper.querySelector('.clone'); 
+                if(clone) clone.remove();
+            }
+        });
+
+        // Sidebar Logic
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        const activeNav = document.getElementById(`nav-${pageId}`);
+        if (activeNav) {
+            activeNav.classList.add('active');
+            setTimeout(() => {
+                activeNav.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            }, 100);
         }
-    });
 
-    // Update Sidebar Active State
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById(`nav-${pageId}`).classList.add('active');
-
-    // --- RANDOM ANIMATION LOGIC START ---
-    const target = document.getElementById(`page-${pageId}`);
-    if(target) {
-        // 1. Pick a random animation index (0 to 4)
-        const randomAnim = animClasses[Math.floor(Math.random() * animClasses.length)];
+        // Animation Logic
+        const target = document.getElementById(`page-${pageId}`);
+        if(target) {
+            const randomAnim = animClasses[Math.floor(Math.random() * animClasses.length)];
+            target.classList.add(randomAnim);
+            target.style.display = 'block'; 
+            setTimeout(() => checkScroll(target), 100);
+        } else {
+            console.warn("Missing Page ID:", pageId);
+        }
         
-        // 2. Add the random class to the target page
-        target.classList.add(randomAnim);
+        const mod = modules[currentIndex];
+        populateImages(pageId, mod.img, mod.icon);
 
-        // 3. Show the page
-        target.style.display = 'block'; 
-        
-        setTimeout(() => checkScroll(target), 100);
+        updateNextBtn();
+        playModuleMusic(pageId);
     }
-    // --- RANDOM ANIMATION LOGIC END ---
-    
-    // Populate Images & Music
-    const mod = modules[currentIndex];
-    populateImages(pageId, mod.img, mod.icon);
-
-    updateNextBtn();
-    playModuleMusic(pageId);
-}
 
     function goHome() {
         document.querySelectorAll('.page-section').forEach(p => p.style.display = 'none');
@@ -637,9 +881,19 @@ function openPage(pageId) {
     function toggleScroll(pageElement) {
         const wrapper = pageElement.querySelector('.loop-wrapper');
         if (!wrapper.classList.contains('infinite-scroll')) return; 
+
+        // Check if user is on mobile
+        const isMobile = window.innerWidth <= 768;
+
         if (pageElement.classList.contains('manual-mode')) {
-            pageElement.classList.remove('manual-mode'); pageElement.scrollTop = 0; 
+            // ON DESKTOP: Clicking toggles it OFF (Restarts animation)
+            // ON MOBILE: Touching should NOT toggle it off, or you can't scroll!
+            if (!isMobile) {
+                pageElement.classList.remove('manual-mode'); 
+                pageElement.scrollTop = 0; 
+            }
         } else {
+            // Turn ON manual mode (Stop animation, enable scrollbar)
             pageElement.classList.add('manual-mode');
         }
     }
@@ -667,6 +921,6 @@ function openPage(pageId) {
         let nextIdx = currentIndex + 1; if (nextIdx >= modules.length) nextIdx = 0;
         openPage(modules[nextIdx].id);
     }
-</script>
+    </script>
 </body>
 </html>
