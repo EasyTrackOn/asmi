@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Asmi Group</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- GLOBAL STYLES (Matching index.html) --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0; padding: 0;
+            height: 100vh; width: 100vw;
+            display: none; /* Hidden by default to prevent flicker */
+            align-items: center; justify-content: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+
+        /* --- LOGIN CARD --- */
+        .login-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.5);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .logo { font-size: 4rem; margin-bottom: 10px; }
+        h1 { margin: 0 0 10px 0; color: #2c3e50; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        p { color: #666; margin-bottom: 30px; font-size: 0.9rem; }
+
+        /* --- INPUTS --- */
+        input[type="tel"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input[type="tel"]:focus {
+            border-color: #23a6d5;
+            box-shadow: 0 0 10px rgba(35, 166, 213, 0.2);
+        }
+
+        /* --- BUTTON --- */
+        .btn-enter {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: linear-gradient(to right, #23a6d5, #23d5ab);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(35, 166, 213, 0.4);
+        }
+
+        .btn-enter:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(35, 166, 213, 0.6); }
+        .btn-enter:active { transform: translateY(1px); }
+        
+        /* Loading Spinner */
+        .loader {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px; height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto 0;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo">🔐</div>
+        <h1>Welcome</h1>
+        <p>Please enter your mobile number to continue.</p>
+        
+        <input type="tel" id="mobileInput" placeholder="Enter Mobile Number" maxlength="10">
+        <button class="btn-enter" onclick="submitNumber()">Start Experience</button>
+        <div class="loader" id="loader"></div>
+    </div>
+
+    <script>
+        // *** CONFIGURATION ***
+        // PASTE YOUR DEPLOYED WEB APP URL HERE
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLU2D7vkyaWSYKAcGLCcGQsKHG0PBDiUl4XLPDx1N9SwwVBoHPdI8_fGvJSwEuqW8O/exec';
+
+        // 1. CHECK LOCAL STORAGE ON LOAD
+        window.onload = function() {
+            const savedMobile = localStorage.getItem('asmi_user_mobile');
+            
+            if (savedMobile) {
+                // User already exists, skip to index
+                window.location.href = 'home.html';
+            } else {
+                // Show this login page
+                document.body.style.display = 'flex';
+            }
+        };
+
+        // 2. SUBMIT FUNCTION
+        function submitNumber() {
+            const mobile = document.getElementById('mobileInput').value;
+            const btn = document.querySelector('.btn-enter');
+            const loader = document.getElementById('loader');
+
+            // Basic Validation
+            if (!mobile || mobile.length < 10) {
+                alert("Please enter a valid mobile number.");
+                return;
+            }
+
+            // UI Loading State
+            btn.style.display = 'none';
+            loader.style.display = 'none';
+
+            // 3. SEND TO GOOGLE SHEET
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Important for Google Apps Script
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mobile: mobile })
+            })
+            .then(response => {
+                // 4. SAVE TO LOCAL STORAGE
+                localStorage.setItem('asmi_user_mobile', mobile);
+                
+                // 5. REDIRECT TO INDEX
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 500); // Slight delay for effect
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Network Error. Please try again.");
+                btn.style.display = 'block';
+                loader.style.display = 'none';
+            });
+        }
+    </script>
+
+</body>
+</html>
