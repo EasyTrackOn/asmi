@@ -812,48 +812,144 @@
     });
 
     // 2. Generate Right Panel Images
-    function populateImages(pageId, emblemSrc, iconChar) {
-        const container = document.getElementById(`img-${pageId}`);
-        if(!container) return;
-        container.innerHTML = '';
-        
-        const scroller = document.createElement('div');
-        scroller.className = 'image-scroller';
-        
-        // Increased count to ensure horizontal scroll fills width
-        const imageCount = 8; 
+    
+    const photos = {
+  artalia: [
+    "1-pMs6chg23W6zHG_0-myhKskAQcflaIM",
+    "15UbnLRUduve4Z_ybh4-NqOts5a0Cbu-P",
+    "16jZQHHKQnaNn686532ytSHMEwyzYv5uG",
+    "1AduQHiTx1qfwI-GVDicQZOoDF6gCxxnN",
+    "1ClgtXYRhZRimkmVlq0RXH6gN8AEF7ej8",
+    "1PmjhcXjV73hxBVhWvsi_qJKuUcwbk2td",
+    "1ZqZVS1yXimhiuSyJfhb32VHkc4mq59Qr",
+    "1ZvWhTl6Ww5xhFgrLFulHHPCfLZzEBhuH",
+    "1_BpNOsYbDHr6Hwj4ij_NNiMHEDG9pgpp",
+    "1_jnEJglLFMsdfMTouBQpHaKtDIqG68H9",
+    "1a8nCTKe2Qz7yaK4ckMa_RnY59i2xXr9n",
+    "1aiJMvjzEKGf-m8H-4xBUrVLLuk6fy6DN",
+    "1c_U4kGo9yetiGWRFTGQJJ-sUNW_Wq7mL",
+    "1egg32XBjFZuUIfOSTQEFDi1WtimGK3gC",
+    "1fTUbJIDPXesAsGBl5UhWEK9JVmx8_a2f",
+    "1fi0V3DvdvCkQL6nMeStMxYJyFruIEua0",
+    "1hoJrWFABevNqt-wWdO6YXKmkm19G-mjg",
+    "1iGQXqMpKGsQowKvBjoM-y4uqDGdYYjsD",
+    "1j2BvUFOx2oLXkURLzPN33cQaRZ5So64y",
+    "1jXentI3B6h6d46c4-ngK9Rn8zGaCON16",
+    "1mRyYBLNilmhbkQ0uJoli05EpoPJSwbdp",
+    "1qXHOF-ncUh40Pj8-7AB5o8c0xjaV50ll",
+    "1uD5fs465F39iTDp_wMVt6moibbqS-CAx",
+    "1uIfkKI1g1_x80GdVsfo7KX6u7GVsJSVn",
+    "1w93pqOP895V7RBd2Y7BOd8xEk5XKVB4p"
+  ],
 
-        // Generate Loop (2 Sets for smooth infinite scroll)
-        for(let k=0; k<2; k++) {
-            for(let i=1; i<=imageCount; i++) { 
-                const item = document.createElement('div');
-                item.className = 'scroller-item';
-                
-                const img = document.createElement('img');
-                img.src = `${pageId}/${i}.jpg`; 
-                img.className = 'right-image';
-                
-                const icon = document.createElement('div');
-                icon.className = 'fallback-icon';
-                icon.innerText = iconChar;
+  lumina: [
+    // add lumina photo ids here...
+  ],
 
-                img.onerror = function() {
-                    if (!this.hasAttribute('data-fallback')) {
-                        this.src = emblemSrc; 
-                        this.setAttribute('data-fallback', 'true');
-                    } else {
-                        this.style.display = 'none';
-                        this.nextElementSibling.style.display = 'flex'; 
-                    }
-                };
+  voice: [
+    // add voice photo ids here...
+  ]
+};
 
-                item.appendChild(img);
-                item.appendChild(icon);
-                scroller.appendChild(item);
-            }
+    // 2. Generate Right Panel Images
+ function getDriveViewUrl(id) {
+  id = String(id).trim();
+  return `https://drive.google.com/uc?export=view&id=${id}`;
+}
+
+
+function populateImages(pageId, emblemSrc, iconChar = "📷") {
+  try {
+    const container = document.getElementById(`img-${pageId}`);
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    const ids = Array.isArray(photos?.[pageId]) ? photos[pageId] : [];
+    console.log(`[populateImages] Page: ${pageId}, Photo IDs:`, ids);
+
+     const getDriveThumbUrl = (id, size = 400) => {
+      return `https://drive.google.com/thumbnail?id=${id}&sz=w${size}-h${size}`;
+    };
+
+    const scroller = document.createElement("div");
+    scroller.className = "image-scroller";
+
+    const loopSets = 2;
+
+    // ---------- helper: create one scroller item ----------
+    const createItem = (src, altText = "") => {
+      const item = document.createElement("div");
+      item.className = "scroller-item";
+
+      const img = document.createElement("img");
+      img.className = "right-image";
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.alt = altText || pageId;
+
+      const icon = document.createElement("div");
+      icon.className = "fallback-icon";
+      icon.textContent = iconChar;
+      icon.style.display = "none";
+
+      // fade-in
+      img.style.opacity = "0";
+      img.addEventListener("load", () => {
+        img.style.transition = "opacity .35s ease";
+        img.style.opacity = "1";
+      });
+
+      // fallback chain
+      img.onerror = function () {
+        // if failed photo -> try emblem
+        if (!this.dataset.triedEmblem && emblemSrc) {
+          this.dataset.triedEmblem = "1";
+          this.src = emblemSrc;
+          return;
         }
-        container.appendChild(scroller);
+
+        // emblem failed OR emblemSrc empty -> icon
+        this.style.display = "none";
+        icon.style.display = "flex";
+      };
+
+      img.src = src;
+
+      item.appendChild(img);
+      item.appendChild(icon);
+      return item;
+    };
+
+    // ---------- CASE 1: No photo ids available ----------
+    if (ids.length === 0) {
+      // show emblem (if available) else icon
+      const emblemToUse = emblemSrc || "";
+      const item = createItem(emblemToUse, `${pageId} emblem`);
+      scroller.appendChild(item);
+      scroller.appendChild(item);
+      scroller.appendChild(item);
+      scroller.appendChild(item);
+      container.appendChild(scroller);
+      return;
     }
+
+    // ---------- CASE 2: Photos available ----------
+    for (let k = 0; k < loopSets; k++) {
+      ids.forEach((id, index) => {
+        const src = getDriveThumbUrl(id, 400);
+        const item = createItem(src, `${pageId} photo ${index + 1}`);
+        scroller.appendChild(item);
+      });
+    }
+
+    container.appendChild(scroller);
+
+  } catch (err) {
+    console.error("[populateImages] Error:", err);
+  }
+}
+        
 
     function playModuleMusic(id) {
         if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
