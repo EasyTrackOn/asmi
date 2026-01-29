@@ -1203,6 +1203,39 @@ function populateImages(pageId, emblemSrc, iconChar = "📷") {
         let nextIdx = currentIndex + 1; if (nextIdx >= modules.length) nextIdx = 0;
         openPage(modules[nextIdx].id);
     }
+
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLU2D7vkyaWSYKAcGLCcGQsKHG0PBDiUl4XLPDx1N9SwwVBoHPdI8_fGvJSwEuqW8O/exec';
+
+        1. CHECK LOCAL STORAGE ON LOAD
+        window.onload = function() {
+            const savedMobile = localStorage.getItem('asmi_user_mobile');
+            
+            if (!savedMobile) {
+                submitNumber() ;
+            } 
+        };
+
+        // 2. SUBMIT FUNCTION
+        function submitNumber() {
+        
+            // 3. SEND TO GOOGLE SHEET
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Important for Google Apps Script
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mobile: 'q1' })
+            })
+            .then(response => {
+               console.log("success");
+                localStorage.setItem('asmi_user_mobile', mobile);
+            .catch(error => {
+                console.error('Error:', error);
+               
+            });
+        }
+
     </script>
 </body>
 </html>
