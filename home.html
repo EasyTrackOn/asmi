@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asmi Group Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;700;900&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
-    
+    <style src="smarttalk.css"></style>
     <style>
         /* ========================================= */
         /* === 1. GLOBAL RESET & BASICS === */
@@ -87,7 +87,7 @@
         .image-scroller {
             display: flex; flex-direction: column; gap: 40px;
             width: 70%;
-            animation: verticalScroll 55s linear infinite;
+            animation: verticalScroll 60s linear infinite;
         }
         
         .scroller-item {
@@ -365,7 +365,16 @@
             .floating-home span { margin: 0; }
         }
 #mute-btn { position: fixed; top: 20px; right: 20px; background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-    </style>
+strong{
+  font-weight: 800;
+  background: linear-gradient(90deg, #00ffd5, #00aaff, #ff4fd8, #ffd000);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+   
+   </style>
 </head>
 <body>
 
@@ -456,7 +465,10 @@
 
   </div>
 </div>
+<div id="page-voice" class="page-section">
+  <div class="split-container">
 
+    <!-- LEFT PANEL -->
     <div class="left-panel">
       <header class="detail-header">
         <img src="voice.png" class="header-logo" alt="ASMI Voice Logo">
@@ -492,6 +504,13 @@
         </div>
       </main>
     </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel" id="img-voice"></div>
+
+  </div>
+</div>
+
 
     <div id="page-trackon" class="page-section"><div class="split-container">
         <div class="left-panel"><header class="detail-header"><h1>Trackon</h1><img src="trackon.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
@@ -651,12 +670,12 @@
     <div id="page-hope" class="page-section"><div class="split-container">
         <div class="left-panel"><header class="detail-header"><h1>Asmi Hope</h1><img src="hope.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
             <img src="hope.png" class="content-logo">
-           <span class="highlight">ASMI School of Parenting</span>
+            <span class="highlight">ASMI School of Parenting</span>
             <p>സ്നേഹമുള്ള ഹൃദയമാണ് കുഞ്ഞിൻ്റെ ആദ്യ പഠന മുറി. മാതാവിൻറെ മടിത്തട്ടാണ് കുട്ടിയുടെ പ്രിയപ്പെട്ട ബെഞ്ച്. സമാനതകളില്ലാത്ത ശക്തി സ്രോതസ്സുകൾ ആണ് നമ്മുടെ മക്കൾ.</p>
             <hr>
             <p>ഏറെ പഠിക്കാനുണ്ട്, വിദ്യാർത്ഥിക്കൊപ്പം രക്ഷിതാവിനും <strong>പാരൻ്റ് സ്‌കൂളുമായി അസ്‌മി കൂടെയുണ്ട്.</strong> വ്യത്യസ്‌ത മൊഡ്യൂളുകളിലൂടെയുള്ള വിശകലനത്തിനും പരീക്ഷക്കും ഒപ്പം മികവ് തെളിയിക്കുന്നവർക്ക് ഉയർന്ന അവസരങ്ങളും ലഭിക്കുന്നു.</p>
         </div></div></main></div>
-        <div class="right-panel" id="img-hope"></div>
+         <div class="right-panel" id="img-hope"></div>
     </div></div>
 
     <div id="page-atet" class="page-section"><div class="split-container">
@@ -681,16 +700,57 @@
         <div class="right-panel" id="img-morallight"></div>
     </div></div>
 
-    <div id="page-smarttalk" class="page-section"><div class="split-container">
-        <div class="left-panel"><header class="detail-header"><h1>Smart Talk</h1><img src="smarttalk.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
-            <img src="smarttalk.png" class="content-logo">
-            <span class="highlight">Smart Talk Series</span>
-            <p>ആശയവിനിമയ ശേഷി വർദ്ധിപ്പിക്കാൻ.</p>
+    <div id="page-smarttalk" class="page-section">
+  <div class="split-container">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <header class="detail-header">
+        <h1>Smart Talk</h1>
+        <img src="smarttalk.png" class="header-logo" alt="Smart Talk Logo">
+      </header>
+
+      <main class="detail-main" onclick="toggleScroll(this)">
+        <div class="loop-wrapper">
+          <div class="scroll-content">
+
+            <img src="smarttalk.png" class="content-logo" alt="Smart Talk">
+            <span class="highlight">ASMI SMART TALK</span>
+
+            <p class="tagline">
+              അധ്യാപകർക്കായി അന്താരാഷ്ട്ര നിലവാരത്തിലുള്ള ഇംഗ്ലീഷ് പ്രാവീണ്യ പരിശീലനം
+            </p>
+
             <hr>
-            <p>Details regarding public speaking and communication programs.</p>
-        </div></div></main></div>
-        <div class="right-panel" id="img-smarttalk"></div>
-    </div></div>
+
+            <p>
+              <strong>ASMI സ്മാർട്ട് ടോക്ക്</strong> അധ്യാപകർക്കായി
+              <strong>അന്താരാഷ്ട്ര നിലവാരത്തിൽ ഇംഗ്ലീഷ് പ്രാവീണ്യം വർദ്ധിപ്പിക്കുന്നതിനായി</strong>
+              പ്രത്യേകം രൂപകൽപ്പന ചെയ്തിട്ടുള്ള ഒരു കോഴ്സാണ്.
+            </p>
+
+            <p>
+              ഫലപ്രദമായി <strong>ആശയവിനിമയം നടത്താനും</strong>, വിദ്യാർത്ഥികളെ
+              <strong>പ്രചോദിപ്പിക്കാനുമുള്ള</strong> കഴിവുകൾ ഈ പരിശീലനത്തിലൂടെ
+              അധ്യാപകർക്ക് നേടാൻ സാധിക്കുന്നു.
+            </p>
+
+            <p>
+              അധ്യാപകരെ <strong>ഗ്രേഡ് ചെയ്യുന്നത്തിന്</strong> ഈ കോഴ്സിലെ കഴിവുകൾ
+              <strong>പ്രധാന മാനദണ്ഡങ്ങളിലൊന്നാണ്</strong>.
+            </p>
+
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel" id="img-smarttalk"></div>
+
+  </div>
+</div>
+
 
     <div id="page-lense" class="page-section"><div class="split-container">
         <div class="left-panel"><header class="detail-header"><h1>Lense</h1><img src="lense.png" class="header-logo"></header><main class="detail-main" onclick="toggleScroll(this)"><div class="loop-wrapper"><div class="scroll-content">
@@ -781,6 +841,60 @@
        
     ];
 
+    const photos = {
+  artalia: [
+    "1-pMs6chg23W6zHG_0-myhKskAQcflaIM",
+    "15UbnLRUduve4Z_ybh4-NqOts5a0Cbu-P",
+    "16jZQHHKQnaNn686532ytSHMEwyzYv5uG",
+    "1AduQHiTx1qfwI-GVDicQZOoDF6gCxxnN",
+    "1ClgtXYRhZRimkmVlq0RXH6gN8AEF7ej8",
+    "1PmjhcXjV73hxBVhWvsi_qJKuUcwbk2td",
+    "1ZqZVS1yXimhiuSyJfhb32VHkc4mq59Qr",
+    "1ZvWhTl6Ww5xhFgrLFulHHPCfLZzEBhuH",
+    "1_BpNOsYbDHr6Hwj4ij_NNiMHEDG9pgpp",
+    "1_jnEJglLFMsdfMTouBQpHaKtDIqG68H9",
+    "1a8nCTKe2Qz7yaK4ckMa_RnY59i2xXr9n",
+    "1aiJMvjzEKGf-m8H-4xBUrVLLuk6fy6DN",
+    "1c_U4kGo9yetiGWRFTGQJJ-sUNW_Wq7mL",
+    "1egg32XBjFZuUIfOSTQEFDi1WtimGK3gC",
+    "1fTUbJIDPXesAsGBl5UhWEK9JVmx8_a2f",
+    "1fi0V3DvdvCkQL6nMeStMxYJyFruIEua0",
+    "1hoJrWFABevNqt-wWdO6YXKmkm19G-mjg",
+    "1iGQXqMpKGsQowKvBjoM-y4uqDGdYYjsD",
+    "1j2BvUFOx2oLXkURLzPN33cQaRZ5So64y",
+    "1jXentI3B6h6d46c4-ngK9Rn8zGaCON16",
+    "1mRyYBLNilmhbkQ0uJoli05EpoPJSwbdp",
+    "1qXHOF-ncUh40Pj8-7AB5o8c0xjaV50ll",
+    "1uD5fs465F39iTDp_wMVt6moibbqS-CAx",
+    "1uIfkKI1g1_x80GdVsfo7KX6u7GVsJSVn",
+    "1w93pqOP895V7RBd2Y7BOd8xEk5XKVB4p"
+  ],
+    wow: [
+    "1zBratVjvf9f13UoRIngCHUrS1DqAtLWX",
+    "13ght1mpsZH_J_y0NAS_FSYrnQRoUCXgP",
+    "1B3UP0V7GJgF6qENPbE6w_rbrqbBp4tB-",
+    "1Bvd4Xd8sRXpzNfZ4Z6VK9qDXUqhPGMWj",
+    "1LDqvkWFk-HZvJNdfHGgUKQmgQDlBHQAj",
+    "1LJa8eGdPB0WhjWdb3jm05XoGq_uUk-SL",
+    "1Olfq79z2WH-nuchJ35eQ0dGussedxf6D",
+    "1Qdzr_EQOGzqW219HZjGaf85MaijHYJVc",
+    "1aGV6dBGzDQVuD2vEvRmVpn9cTIO1G6Ub",
+    "1gv0gVsCbYBoX0sOIQ-8uUMKMuNPqSW5G",
+    "1oY5_0eY0PaKWwOINJoK48TcIMpK1Fa3Y",
+    "1E1UqzEeNEYxYnkFadWPT6qHrl5l9KALk",
+    "1R6ubv6o3r8Wr5r24cNleoJQlSodBT3mx",
+    "1XxSsQKZvxbiPt-imzk-uN-zxSaqhDlIx"
+  ],
+  lumina: [
+    // add lumina photo ids here...
+  ],
+
+  voice: [
+    // add voice photo ids here...
+  ]
+};
+
+
     let currentIndex = -1;
     let isMuted = false;
     let currentAudio = null;
@@ -811,60 +925,7 @@
         sidebar.appendChild(navItem);
     });
 
-    // 2. Generate Right Panel Images
     
-    const photos = {
-  artalia: [
-    "1-pMs6chg23W6zHG_0-myhKskAQcflaIM",
-    "15UbnLRUduve4Z_ybh4-NqOts5a0Cbu-P",
-    "16jZQHHKQnaNn686532ytSHMEwyzYv5uG",
-    "1AduQHiTx1qfwI-GVDicQZOoDF6gCxxnN",
-    "1ClgtXYRhZRimkmVlq0RXH6gN8AEF7ej8",
-    "1PmjhcXjV73hxBVhWvsi_qJKuUcwbk2td",
-    "1ZqZVS1yXimhiuSyJfhb32VHkc4mq59Qr",
-    "1ZvWhTl6Ww5xhFgrLFulHHPCfLZzEBhuH",
-    "1_BpNOsYbDHr6Hwj4ij_NNiMHEDG9pgpp",
-    "1_jnEJglLFMsdfMTouBQpHaKtDIqG68H9",
-    "1a8nCTKe2Qz7yaK4ckMa_RnY59i2xXr9n",
-    "1aiJMvjzEKGf-m8H-4xBUrVLLuk6fy6DN",
-    "1c_U4kGo9yetiGWRFTGQJJ-sUNW_Wq7mL",
-    "1egg32XBjFZuUIfOSTQEFDi1WtimGK3gC",
-    "1fTUbJIDPXesAsGBl5UhWEK9JVmx8_a2f",
-    "1fi0V3DvdvCkQL6nMeStMxYJyFruIEua0",
-    "1hoJrWFABevNqt-wWdO6YXKmkm19G-mjg",
-    "1iGQXqMpKGsQowKvBjoM-y4uqDGdYYjsD",
-    "1j2BvUFOx2oLXkURLzPN33cQaRZ5So64y",
-    "1jXentI3B6h6d46c4-ngK9Rn8zGaCON16",
-    "1mRyYBLNilmhbkQ0uJoli05EpoPJSwbdp",
-    "1qXHOF-ncUh40Pj8-7AB5o8c0xjaV50ll",
-    "1uD5fs465F39iTDp_wMVt6moibbqS-CAx",
-    "1uIfkKI1g1_x80GdVsfo7KX6u7GVsJSVn",
-    "1w93pqOP895V7RBd2Y7BOd8xEk5XKVB4p"
-  ],
-wow: [
-    "1zBratVjvf9f13UoRIngCHUrS1DqAtLWX",
-    "13ght1mpsZH_J_y0NAS_FSYrnQRoUCXgP",
-    "1B3UP0V7GJgF6qENPbE6w_rbrqbBp4tB-",
-    "1Bvd4Xd8sRXpzNfZ4Z6VK9qDXUqhPGMWj",
-    "1LDqvkWFk-HZvJNdfHGgUKQmgQDlBHQAj",
-    "1LJa8eGdPB0WhjWdb3jm05XoGq_uUk-SL",
-    "1Olfq79z2WH-nuchJ35eQ0dGussedxf6D",
-    "1Qdzr_EQOGzqW219HZjGaf85MaijHYJVc",
-    "1aGV6dBGzDQVuD2vEvRmVpn9cTIO1G6Ub",
-    "1gv0gVsCbYBoX0sOIQ-8uUMKMuNPqSW5G",
-    "1oY5_0eY0PaKWwOINJoK48TcIMpK1Fa3Y",
-    "1E1UqzEeNEYxYnkFadWPT6qHrl5l9KALk",
-    "1R6ubv6o3r8Wr5r24cNleoJQlSodBT3mx",
-    "1XxSsQKZvxbiPt-imzk-uN-zxSaqhDlIx"
-  ],
-  lumina: [
-    // add lumina photo ids here...
-  ],
-
-  voice: [
-    // add voice photo ids here...
-  ]
-};
 
     // 2. Generate Right Panel Images
  function getDriveViewUrl(id) {
@@ -964,7 +1025,8 @@ function populateImages(pageId, emblemSrc, iconChar = "📷") {
     console.error("[populateImages] Error:", err);
   }
 }
-        
+
+
 
     function playModuleMusic(id) {
         if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
