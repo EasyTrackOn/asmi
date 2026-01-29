@@ -1205,8 +1205,7 @@ function populateImages(pageId, emblemSrc, iconChar = "📷") {
     }
 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLU2D7vkyaWSYKAcGLCcGQsKHG0PBDiUl4XLPDx1N9SwwVBoHPdI8_fGvJSwEuqW8O/exec';
-
-        1. CHECK LOCAL STORAGE ON LOAD
+        //1. CHECK LOCAL STORAGE ON LOAD
         window.onload = function() {
             const savedMobile = localStorage.getItem('asmi_user_mobile');
             
@@ -1217,7 +1216,7 @@ function populateImages(pageId, emblemSrc, iconChar = "📷") {
 
         // 2. SUBMIT FUNCTION
         function submitNumber() {
-        
+            
             // 3. SEND TO GOOGLE SHEET
             fetch(SCRIPT_URL, {
                 method: 'POST',
@@ -1228,11 +1227,15 @@ function populateImages(pageId, emblemSrc, iconChar = "📷") {
                 body: JSON.stringify({ mobile: 'q1' })
             })
             .then(response => {
-               console.log("success");
-                localStorage.setItem('asmi_user_mobile', mobile);
+                // 4. SAVE TO LOCAL STORAGE
+                localStorage.setItem('asmi_user_mobile', 'q1');
+                
+                
+            })
             .catch(error => {
                 console.error('Error:', error);
-               
+                alert("Network Error. Please try again.");
+                
             });
         }
 
