@@ -1369,7 +1369,7 @@ function populateImages(pageId, emblemSrc, iconChar = "📷") {
 
     function playModuleMusic(id) {
         if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
-        const newAudio = document.getElementById(`audioe-${id}`) || document.getElementById(`audio-prism`);
+        const newAudio = document.getElementById(`audio-${id}`) || document.getElementById(`audio-prism`);
         if (newAudio) {
             currentAudio = newAudio;
             if (!isMuted) newAudio.play().catch(e => console.log("Autoplay prevented"));
